@@ -21,7 +21,7 @@ This repo represents a frontend part of Diploma project. Using this app you can 
 http://bitfilms.smirnov.nomoredomains.icu/   
 https://bitfilms.smirnov.nomoredomains.icu/   
 
-### Figma file layout link
+### Figma file link
 https://disk.yandex.ru/d/KI5DcrxvdZ_KfQ
 
 # Movies Explorer. Фронтенд.
