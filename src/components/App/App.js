@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import * as React from 'react';
+import React from 'react';
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import Landing from '../Landing/Landing';
 import Layout from '../Layout/Layout';
@@ -9,6 +9,7 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
+import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='profile' element={<Profile />} />
           <Route path='signin' element={<Login />} />
           <Route path='signup' element={<Register />} />
+          <Route path='*' element={<PageNotFound />} />
         </Route>
       </Routes>
     </div>
