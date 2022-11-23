@@ -14,3 +14,12 @@
 .link:hover {
  opacity: .7;
 }
+
+.button {
+  opacity: 1;
+  transition: opacity ease-in-out .2s;
+}
+
+.button:hover {
+  opacity: .7;
+}
