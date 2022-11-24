@@ -1,0 +1,223 @@
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 608px;
+  border: 1px solid red;
+}
+
+.about__title {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: calc(22 / 22);
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #000;
+  letter-spacing: -1.5px;
+  width: calc((1140 / 1280) * 100%);
+  border-bottom: 1px solid black;
+  margin: 110px 0 0;
+  padding: 0 0 23px;
+}
+
+.about__description {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 26px;
+  column-gap: 100px;
+  justify-items: start;
+  width: calc((1140 / 1280) * 100%);
+  margin: 70px 0 0;
+}
+
+.about__stages-title {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 20px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #000;
+  letter-spacing: -1px;
+  margin: 0;
+  padding: 0;
+}
+
+.about__weeks-title {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 20px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #000;
+  letter-spacing: -1px;
+  margin: 0;
+  padding: 0;
+}
+
+.about__stages-text {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.about__weeks-text {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.about__timeline {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-auto-rows: 36px;
+  justify-items: center;
+  align-items: center;
+  width: calc((1140 / 1280) * 100%);
+  margin: 110px 0 0;
+}
+
+.about__timeline-item {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-size: 14px;
+  margin: 0;
+}
+
+.about__backend-weeks {
+  font-weight: 400;
+  line-height: 14px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  text-align: center;
+  color: #fff;
+  background-color: #3456f3;
+  width: 100%;
+  padding: 11px 0;
+}
+
+.about__frontend-weeks {
+  font-weight: 400;
+  line-height: 14px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  text-align: center;
+  color: #000;
+  background-color: #f2f2f2;
+  width: 100%;
+  padding: 11px 0;
+}
+
+.about__backend {
+  font-weight: 500;
+  line-height: 17px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #a0a0a0;
+  padding: 0;
+}
+
+.about__frontend {
+  font-weight: 500;
+  line-height: 17px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #a0a0a0;
+  padding: 0;
+}
+
+@media screen and (max-width: 1090px) {
+  .about__description {
+    column-gap: 50px;
+  }
+}
+
+@media screen and (max-width: 838px) {
+  .about {
+    height: 585px;
+  }
+
+  .about__title {
+    width: calc((708 / 768) * 100%);
+    margin: 90px 0 0;
+  }
+
+  .about__description {
+    column-gap: 30px;
+  }
+
+  .about__description-text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .about {
+    height: 641px;
+  }
+
+  .about__title {
+    font-size: 18px;
+    width: calc((300 / 320) * 100%);
+    margin: 70px 0 0;
+    padding: 0 0 28px;
+  }
+
+  .about__description {
+    margin: 60px 0 0;
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+  }
+
+  .about__stages-title {
+    font-size: 18px;
+  }
+
+  .about__weeks-title {
+    grid-column: 1;
+    grid-row: 3;
+    font-size: 18px;
+    margin-top: 40px;
+  }
+
+  .about__stages-text {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 11px;
+  }
+
+  .about__weeks-text {
+    font-size: 11px;
+  }
+
+  .about__timeline {
+    width: calc((300 / 320) * 100%);
+    margin: 60px 0 0;
+  }
+
+  .about__timeline-item {
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 11px;
+  }
+}

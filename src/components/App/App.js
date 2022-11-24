@@ -1,8 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import { Routes, Route, Outlet, Link } from 'react-router-dom';
-import Landing from '../Landing/Landing';
+import { Routes, Route } from 'react-router-dom';
 import Layout from '../Layout/Layout';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -10,13 +9,14 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import PageNotFound from '../PageNotFound/PageNotFound';
+import Main from '../Main/Main';
 
 function App() {
   return (
     <div className='App'>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Landing />} />
+          <Route index element={<Main />} />
           <Route path='movies' element={<Movies />} />
           <Route path='saved-movies' element={<SavedMovies />} />
           <Route path='profile' element={<Profile />} />

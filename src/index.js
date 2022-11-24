@@ -12,3 +12,7 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
+
+
+// Вопросы
+// Сделать правильно кнопку "Узнать больше" на лендинге
