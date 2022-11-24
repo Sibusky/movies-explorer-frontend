@@ -44,7 +44,7 @@
 
 @media screen and (max-width: 838px) {
   .section-title {
-    width: calc((708 / 768) * 100%);
+    width: calc((668 / 768) * 100%);
     margin: 90px 0 0;
   }
 }
@@ -52,7 +52,7 @@
 @media screen and (max-width: 420px) {
   .section-title {
     font-size: 18px;
-    width: calc((300 / 320) * 100%);
+    width: calc((292 / 320) * 100%);
     margin: 70px 0 0;
     padding: 0 0 28px;
   }
