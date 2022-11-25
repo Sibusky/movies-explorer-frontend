@@ -229,6 +229,7 @@
   .student__info-bio {
     font-size: 11px;
     line-height: 16px;
+    margin: 24px 0 0;
   }
 
   .student__info-description {

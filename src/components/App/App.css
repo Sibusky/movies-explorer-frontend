@@ -31,15 +31,15 @@
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
-  line-height: 1;
+  line-height: 29px;
   text-rendering: optimizeLegibility;
   text-decoration: none;
   color: #000;
-  letter-spacing: -1.5px;
+  letter-spacing: -0.9px;
   width: calc((1140 / 1280) * 100%);
   border-bottom: 1px solid black;
   margin: 110px 0 0;
-  padding: 0 0 23px;
+  padding: 0 0 21px;
 }
 
 @media screen and (max-width: 838px) {
@@ -53,7 +53,7 @@
   .section-title {
     font-size: 18px;
     width: calc((292 / 320) * 100%);
-    margin: 70px 0 0;
-    padding: 0 0 28px;
+    margin: 67px 0 0;
+    padding: 0 0 24px;
   }
 }

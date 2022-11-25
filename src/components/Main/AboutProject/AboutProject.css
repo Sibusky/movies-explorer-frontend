@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   height: 608px;
   width: 100%;
 }
@@ -11,10 +11,10 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   row-gap: 26px;
-  column-gap: 100px;
+  column-gap: 40px;
   justify-items: start;
   width: calc((1140 / 1280) * 100%);
-  margin: 70px 0 0;
+  margin: 72px 0 0;
 }
 
 .about__stages-title {
@@ -26,7 +26,7 @@
   text-rendering: optimizeLegibility;
   text-decoration: none;
   color: #000;
-  letter-spacing: -1px;
+  letter-spacing: -0.8px;
   margin: 0;
   padding: 0;
 }
@@ -40,7 +40,7 @@
   text-rendering: optimizeLegibility;
   text-decoration: none;
   color: #000;
-  letter-spacing: -1px;
+  letter-spacing: -0.8px;
   margin: 0;
   padding: 0;
 }
@@ -73,12 +73,12 @@
 
 .about__timeline {
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 20% auto;
   grid-auto-rows: 36px;
   justify-items: center;
   align-items: center;
   width: calc((1140 / 1280) * 100%);
-  margin: 110px 0 0;
+  margin: 112px 0 0;
 }
 
 .about__timeline-item {
@@ -119,6 +119,7 @@
   text-decoration: none;
   color: #a0a0a0;
   padding: 0;
+  margin: 8px 0 0;
 }
 
 .about__frontend {
@@ -128,6 +129,7 @@
   text-decoration: none;
   color: #a0a0a0;
   padding: 0;
+  margin: 8px 0 0;
 }
 
 @media screen and (max-width: 1090px) {
@@ -143,11 +145,31 @@
 
   .about__description {
     column-gap: 30px;
+    row-gap: 20px;
+    width: calc((668 / 768) * 100%);
   }
 
-  .about__description-text {
+  .about__stages-title {
+    line-height: 23px;
+  }
+
+  .about__weeks-title {
+    line-height: 23px;
+  }
+
+  .about__stages-text {
     font-size: 12px;
-    line-height: 18px;
+    line-height: 19px;
+  }
+
+  .about__weeks-text {
+    font-size: 12px;
+    line-height: 19px;
+  }
+
+  .about__timeline {
+    width: calc((668 / 768) * 100%);
+    margin: 92px 0 0;
   }
 }
 
@@ -159,7 +181,8 @@
   .about__description {
     margin: 60px 0 0;
     grid-template-columns: 1fr;
-    row-gap: 16px;
+    row-gap: 13px;
+    width: calc((292 / 320) * 100%);
   }
 
   .about__stages-title {
@@ -177,13 +200,17 @@
     grid-column: 1;
     grid-row: 2;
     font-size: 11px;
+    line-height: 17px;
   }
 
   .about__weeks-text {
     font-size: 11px;
+    line-height: 17px;
   }
 
   .about__timeline {
+    grid-template-columns: 35% auto;
+    grid-auto-rows: 32px;
     width: calc((292 / 320) * 100%);
     margin: 60px 0 0;
   }
@@ -192,5 +219,7 @@
     font-size: 11px;
     font-weight: 400;
     line-height: 11px;
+    padding: 13px 0;
+    margin: 0;
   }
 }

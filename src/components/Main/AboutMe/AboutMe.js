@@ -24,6 +24,7 @@ export default function AboutMe() {
             className='student__info-github link'
             href='https://github.com/Sibusky'
             target='_blank'
+            rel="noreferrer"
           >
             Github
           </a>
