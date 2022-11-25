@@ -5,7 +5,6 @@
   height: 548px;
   width: 100%;
   background-color: #fafafa;
-  border: 1px solid red;
 }
 
 .student__info-container {
@@ -83,7 +82,6 @@
   width: 270px;
   height: 327px;
   border-radius: 10px;
-  cursor: pointer;
   filter: grayscale(70%);
   transition: filter ease-in-out 0.2s;
 }
