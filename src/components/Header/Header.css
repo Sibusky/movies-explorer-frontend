@@ -72,6 +72,9 @@
 
 .header__menu-btn {
   background-image: url(../../images/menu-btn.svg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   width: 44px;
   height: 44px;
   visibility: hidden;
@@ -83,11 +86,9 @@
 
 @media screen and (max-width: 838px) {
 
-
-
-
-
-
+  .header__container {
+    width: calc((708 / 768) * 100%);
+  }
 
   .header__navigator {
     visibility: hidden;
@@ -97,5 +98,20 @@
   .header__menu-btn {
     visibility: visible;
     opacity: 1;
+    top: 15px;
+    right: 30px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .header__container {
+    width: calc((293 / 320) * 100%);
+  }
+
+  .header__menu-btn {
+    width: 40px;
+    height: 43px;
+    top: 16px;
+    right: 15px;
   }
 }

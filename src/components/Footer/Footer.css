@@ -109,6 +109,7 @@
   .footer__copyright {
     font-size: 12px;
     width: 155px;
+    margin: 0 0 12px 0;
   }
 
   .footer__nav-list {
@@ -119,7 +120,7 @@
 
   .footer__nav-list-item {
     margin-right: 0;
-    margin-bottom: 12px;
+    margin-bottom: 7px;
   }
 
   .footer__nav-list-item:last-of-type {

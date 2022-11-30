@@ -23,8 +23,6 @@ export default function Header() {
         ></div>
       </header>
 
-
-
       {/* <MenuModal isActvite={modalActive} setIsActive={setModalActive}>
         <p>Hello</p>
         <MenuNavigation />

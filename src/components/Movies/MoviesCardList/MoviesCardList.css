@@ -35,3 +35,29 @@
   padding: 0;
   margin: 50px 0 0 0;
 }
+
+@media screen and (max-width: 838px) {
+  .movies-cards {
+    width: calc((708 / 768) * 100%);
+    padding: 20px 0 80px 0;
+  }
+
+  .movies-cards__list {
+    padding: 0 0 30px 0;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .movies-cards {
+    width: calc((283 / 300) * 100%);
+    padding: 20px 0 80px 0;
+  }
+
+  .movies-cards__list {
+    padding: 0 0 20px 0;
+  }
+
+  .movies-cards__more-btn {
+    width: 240px;
+  }
+}

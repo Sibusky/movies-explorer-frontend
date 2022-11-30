@@ -15,37 +15,25 @@ export default function MoviesCardList() {
   let movie2 = {
     name: 'Киноальманах «100 лет дизайна»',
     link: MoviePic2,
-    duration: '1ч 40мин',
+    duration: '1ч 35мин',
   };
 
   let movie3 = {
     name: 'В погоне за Бенкси',
     link: MoviePic3,
-    duration: '1ч 40мин',
+    duration: '1ч 22мин',
   };
 
   return (
     <section className='movies-cards'>
       <ul className='movies-cards__list'>
         <MoviesCard movie={movie1} />
-      </ul>
-      <ul className='movies-cards__list'>
         <MoviesCard movie={movie2} />
-      </ul>
-      <ul className='movies-cards__list'>
         <MoviesCard movie={movie3} />
-      </ul>
-      <ul className='movies-cards__list'>
         <MoviesCard movie={movie1} />
-      </ul>
-      <ul className='movies-cards__list'>
         <MoviesCard movie={movie2} />
-      </ul>
-      <ul className='movies-cards__list'>
-        <MoviesCard movie={movie3} />
-      </ul>
-      <ul className='movies-cards__list'>
-        <MoviesCard movie={movie1} />
+        {/* <MoviesCard movie={movie3} />
+        <MoviesCard movie={movie2} /> */}
       </ul>
       <button className='movies-cards__more-btn button'>Ещё</button>
     </section>
