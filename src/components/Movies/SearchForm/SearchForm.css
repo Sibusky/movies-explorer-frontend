@@ -1,0 +1,131 @@
+.search-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 228px;
+  width: 100%;
+  background-color: #FAFAFA;
+  padding: 0;
+  margin: 0;
+}
+
+.search-form__fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  width: calc((1140 / 1280) * 100%);
+  padding: 0 0 39px 0;
+  margin: 80px 0 0 0;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.search-form__input-and-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 52px;
+  padding: 0;
+  margin: 0;
+}
+
+.search-form__input-query {
+  width: calc((1086 / 1140) * 100%);
+  height: 50px;
+  padding: 0 20px 0 20px;
+  margin: 0 10px 0 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #f4f4f4;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  letter-spacing: 0;
+}
+
+.search-form__button {
+  background-image: url(../../../images/search-btn.svg);
+  border: none;
+  cursor: pointer;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  margin: 0;
+}
+
+.search-form__short-movies-switch {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 28px 0 0 0;
+}
+
+.search-form__switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  padding: 0;
+  margin: 0 12px 0 0;
+}
+
+.search-form__checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.search-form__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+.search-form__slider:before {
+  position: absolute;
+  content: '';
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.search-form__checkbox:checked + .search-form__slider {
+  background-color: #2be080;
+}
+
+.search-form__checkbox:focus + .search-form__slider {
+  box-shadow: 0 0 2px #2be080;
+}
+
+.search-form__checkbox:checked + .search-form__slider:before {
+  transform: translateX(16px);
+}
+
+.search-form__short-movies-text {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  letter-spacing: 0;
+  margin: 0;
+  padding: 0;
+}

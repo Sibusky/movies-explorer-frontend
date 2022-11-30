@@ -2,14 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../Logo/Logo';
 import './Promo.css';
+import WebEarth from '../../../images/landing-logo.svg';
 
 export default function Promo() {
   return (
-    <div className='promo'>
+    <section className='promo'>
       <div className='promo__top'>
-        <Link to='/'>
-          <Logo />
-        </Link>
+        <Logo />
         <div className='promo__auth-buttons'>
           <Link to='/signup' className='promo__auth-signup link'>
             Регистрация
@@ -31,8 +30,12 @@ export default function Promo() {
             Узнать больше
           </button>
         </div>
-        <div className='promo__container-img'></div>
+        <img
+          className='promo__container-img'
+          src={WebEarth}
+          alt='Веб земной шар'
+        />
       </div>
-    </div>
+    </section>
   );
 }

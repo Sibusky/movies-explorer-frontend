@@ -1,0 +1,68 @@
+.movie__item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 6px 6px 6px 22px;
+}
+
+.movie__description {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+}
+
+.movie__title {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 18px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  letter-spacing: 0;
+  color: black;
+  width: 400px;
+  margin: 16px 0 0 0;
+  padding: 0;
+}
+
+.movie__duration {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 11px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  letter-spacing: 0;
+  margin: 13px 0 0 0;
+  padding: 0;
+  color: #a0a0a0;
+}
+
+.movie__like-btn {
+  background-image: url(../../../images/like-btn.svg);
+  border: none;
+  background-color: transparent;
+  width: 14px;
+  height: 12px;
+  margin: 30px 0 0 0;
+  padding: 0;
+}
+
+.movie__like-btn_active {
+  background-image: url(../../../images/like-btn_active.svg);
+}
+
+.movie__image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 220px;
+  height: 120px;
+}

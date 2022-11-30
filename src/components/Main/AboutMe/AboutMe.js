@@ -4,7 +4,7 @@ import StudentPhoto from '../../../images/student-photo.jpg';
 
 export default function AboutMe() {
   return (
-    <div className='student'>
+    <section className='student'>
       <h2 className='student__title section-title'>Студент</h2>
       <div className='student__info-container'>
         <div className='student__info-text-container'>
@@ -35,6 +35,6 @@ export default function AboutMe() {
           alt='Фото студента'
         />
       </div>
-    </div>
+    </section>
   );
 }

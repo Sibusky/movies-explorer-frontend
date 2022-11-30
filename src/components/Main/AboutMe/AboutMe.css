@@ -82,7 +82,7 @@
   width: 270px;
   height: 327px;
   border-radius: 10px;
-  filter: grayscale(70%);
+  filter: grayscale(100%);
   transition: filter ease-in-out 0.2s;
 }
 
