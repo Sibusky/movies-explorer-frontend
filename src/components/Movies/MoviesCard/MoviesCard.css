@@ -153,3 +153,11 @@
     margin: 11px 0 0 0;
   }
 }
+
+@media screen and (max-width: 310px) {
+    .movie__title {
+        font-size: 10px;
+        line-height: 10px;
+        width: 150px;
+      }
+}

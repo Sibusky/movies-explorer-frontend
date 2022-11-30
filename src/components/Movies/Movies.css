@@ -3,3 +3,29 @@
     flex-direction: column;
     align-items: center;
 }
+
+.movies-cards__more-btn {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    text-rendering: optimizeLegibility;
+    text-decoration: none;
+    letter-spacing: 0;
+    width: 320px;
+    height: 36px;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    background-color: #f4f4f4;
+    padding: 0;
+    margin: 0 0 80px 0;
+  }
+
+  @media screen and (max-width: 420px) {
+    .movies-cards__more-btn {
+      width: 240px;
+      margin: 0;
+    }
+  }

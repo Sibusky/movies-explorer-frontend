@@ -32,10 +32,9 @@ export default function MoviesCardList() {
         <MoviesCard movie={movie3} />
         <MoviesCard movie={movie1} />
         <MoviesCard movie={movie2} />
-        {/* <MoviesCard movie={movie3} />
-        <MoviesCard movie={movie2} /> */}
+        <MoviesCard movie={movie3} />
+        <MoviesCard movie={movie2} />
       </ul>
-      <button className='movies-cards__more-btn button'>Ещё</button>
     </section>
   );
 }
