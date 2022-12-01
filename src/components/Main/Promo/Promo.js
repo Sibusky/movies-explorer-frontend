@@ -4,7 +4,8 @@ import Logo from '../../Logo/Logo';
 import './Promo.css';
 import WebEarth from '../../../images/landing-logo.svg';
 
-export default function Promo() {
+export default function Promo({ scrollHendler }) {
+
   return (
     <section className='promo'>
       <div className='promo__top'>
@@ -26,7 +27,10 @@ export default function Promo() {
           <p className='promo__container-caption'>
             Листайте ниже, чтобы узнать больше про этот проект и его создателя.
           </p>
-          <button className='promo__container-button button'>
+          <button
+            className='promo__container-button button'
+            onClick={scrollHendler}
+          >
             Узнать больше
           </button>
         </div>

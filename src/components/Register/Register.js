@@ -1,9 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Logo from '../Logo/Logo';
 import './Register.css';
 import { Link } from 'react-router-dom';
 
 export default function Register({ user }) {
+  // Объявляю переменные состояния через хук useState
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  // // Универсальный обработчик полей (пока что не работает)
+  // function handleChange(e) {
+  //   const { name, value } = e.target;
+  //   setValues((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // }
+
+  // Обработчик формы
+  function handleSubmit(e) {
+    e.preventDefault();
+    // const { email, password } = values;
+    // handleRegister({ email, password });
+  }
+
   return (
     <section className='register'>
       <div className='register__container'>
@@ -11,7 +34,7 @@ export default function Register({ user }) {
           <Logo />
           <h2 className='register__welcome'>Добро пожаловать!</h2>
         </div>
-        <form className='register__form'>
+        <form className='register__form' onSubmit={handleSubmit}>
           <fieldset className='register__form-fieldset'>
             <ul className='register__input-list'>
               <li className='register__input-item'>
@@ -27,8 +50,8 @@ export default function Register({ user }) {
                   type='text'
                   placeholder=''
                   name='user-name'
-                  // onChange={handleChange}
-                  value={user.name}
+                  onChange={e => setValues({...values, name: e.target.value})}
+                  value={values.name}
                   required
                 />
                 <span
@@ -49,8 +72,8 @@ export default function Register({ user }) {
                   type='email'
                   placeholder=''
                   name='user-email'
-                  // onChange={handleChange}
-                  value={user.email}
+                  onChange={e => setValues({...values, email: e.target.value})}
+                  value={values.email}
                   required
                 />
                 <span
@@ -71,8 +94,8 @@ export default function Register({ user }) {
                   type='password'
                   placeholder=''
                   name='password'
-                  // onChange={handleChange}
-                  value={'values.password'}
+                  onChange={e => setValues({...values, password: e.target.value})}
+                  value={values.password}
                   required
                 />
                 <span id='error-register-password' className='register__error'>

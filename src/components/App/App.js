@@ -15,7 +15,8 @@ import Header from '../Header/Header';
 function App() {
   let user = {
     name: 'Виталий',
-    email: 'pochta@yandex.ru'
+    email: 'pochta@yandex.ru',
+    password: '12345678'
   }
 
   return (

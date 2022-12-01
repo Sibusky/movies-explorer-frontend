@@ -1,9 +1,9 @@
 import React from 'react';
 import './AboutProject.css';
 
-export default function AboutProject() {
+export default function AboutProject({ scroll }) {
   return (
-    <section className='about'>
+    <section className='about' ref={scroll}>
       <h2 className='about__title section-title'>О проекте</h2>
       <div className='about__description'>
         <h3 className='about__stages-title'>
