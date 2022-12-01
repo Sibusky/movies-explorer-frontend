@@ -1,7 +1,7 @@
 import React from 'react';
 import './MoviesCard.css';
 
-export default function MoviesCard({ movie, onCardClick, onCardLike }) {
+export default function MoviesCard({ movie }) {
   // Определяю, есть ли у карточки лайк, поставленный текущим пользователем
   //   const isLiked = card.likes.some((i) => i === currentUser.id);
   // Пока что просто ставлю и убираю лайк

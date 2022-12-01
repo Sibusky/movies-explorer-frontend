@@ -86,10 +86,10 @@
 }
 
 @media screen and (max-width: 838px) {
-  .top__navigator {
+  /* .top__navigator {
       visibility: hidden;
       opacity: 0;
-    }
+    } */
 
   /* .top {
     position: fixed;
@@ -109,8 +109,8 @@
     width: 100%;
   } */
 
-  .top__top-btn {
+  /* .top__top-btn {
     visibility: visible;
     opacity: 1;
-  }
+  } */
 }

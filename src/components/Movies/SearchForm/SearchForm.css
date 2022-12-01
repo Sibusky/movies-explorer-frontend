@@ -47,6 +47,10 @@
   letter-spacing: 0;
 }
 
+.search-form__input-query:focus {
+  outline: none;
+}
+
 .search-form__button {
   background-image: url(../../../images/search-btn.svg);
   border: none;
