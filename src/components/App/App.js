@@ -13,6 +13,11 @@ import Main from '../Main/Main';
 import Header from '../Header/Header';
 
 function App() {
+  let user = {
+    name: 'Виталий',
+    email: 'pochta@yandex.ru'
+  }
+
   return (
     <div className='App'>
       <Routes>
@@ -25,7 +30,7 @@ function App() {
             </Route>
           </Route>
           <Route element={<Header />}>
-            <Route path='profile' element={<Profile />} />
+            <Route path='profile' element={<Profile user={user}/>} />
           </Route>
           <Route path='signin' element={<Login />} />
           <Route path='signup' element={<Register />} />

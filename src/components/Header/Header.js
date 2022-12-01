@@ -15,7 +15,7 @@ export default function Header() {
           <Logo />
           {/* {console.log(window.screen.width)} */}
           {/* {window.screen.width > 838 ? <HeaderNavigation /> : null} */}
-          <HeaderNavigation />
+          {/* <HeaderNavigation /> */}
         </div>
         <div
           className='header__menu-btn button'
