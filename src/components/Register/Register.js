@@ -17,7 +17,7 @@ export default function Register({ user }) {
               <li className='register__input-item'>
                 <label
                   className='register__input-label'
-                  for='register__input-name'
+                  htmlFor='register__input-name'
                 >
                   Имя
                 </label>
@@ -39,7 +39,7 @@ export default function Register({ user }) {
               <li className='register__input-item'>
                 <label
                   className='register__input-label'
-                  for='register__input-email'
+                  htmlFor='register__input-email'
                 >
                   E-mail
                 </label>
@@ -61,7 +61,7 @@ export default function Register({ user }) {
               <li className='register__input-item'>
                 <label
                   className='register__input-label'
-                  for='register__input-password'
+                  htmlFor='register__input-password'
                 >
                   Пароль
                 </label>
@@ -75,10 +75,9 @@ export default function Register({ user }) {
                   value={'values.password'}
                   required
                 />
-                <span
-                  id='error-register-password'
-                  className='register__error'
-                >Что-то пошло не так...</span>
+                <span id='error-register-password' className='register__error'>
+                  Что-то пошло не так...
+                </span>
               </li>
             </ul>
           </fieldset>

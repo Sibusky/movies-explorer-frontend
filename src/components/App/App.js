@@ -32,7 +32,7 @@ function App() {
           <Route element={<Header />}>
             <Route path='profile' element={<Profile user={user}/>} />
           </Route>
-          <Route path='signin' element={<Login />} />
+          <Route path='signin' element={<Login user={user}/>} />
           <Route path='signup' element={<Register user={user}/>} />
           <Route path='*' element={<PageNotFound />} />
         </Route>
