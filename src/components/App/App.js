@@ -33,7 +33,7 @@ function App() {
             <Route path='profile' element={<Profile user={user}/>} />
           </Route>
           <Route path='signin' element={<Login />} />
-          <Route path='signup' element={<Register />} />
+          <Route path='signup' element={<Register user={user}/>} />
           <Route path='*' element={<PageNotFound />} />
         </Route>
       </Routes>
