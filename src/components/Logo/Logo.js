@@ -4,8 +4,8 @@ import './Logo.css';
 
 export default function Logo() {
   return (
-    <Link className='logo__link' to='/'>
-      <div className='logo button'></div>
+    <Link className='logo' to='/'>
+      <div className='logo__img button'></div>
     </Link>
   );
 }

@@ -3,7 +3,7 @@ import './Profile.css';
 
 export default function Profile({ user }) {
   return (
-    <section className='profile'>
+    <main className='profile'>
       <h2 className='profile__greetings'>Привет, {user.name}!</h2>
       <ul className='profile__contacts'>
         <li className='profile__contacts-item'>
@@ -21,6 +21,6 @@ export default function Profile({ user }) {
           Выйти из аккаунта
         </button>
       </div>
-    </section>
+    </main>
   );
 }

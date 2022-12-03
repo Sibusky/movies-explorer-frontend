@@ -18,7 +18,7 @@ export default function Login({user}) {
     }
 
   return (
-    <section className='login'>
+    <main className='login'>
       <div className='login__container'>
         <div className='login__top'>
           <Logo />
@@ -72,6 +72,6 @@ export default function Login({user}) {
           </Link>
         </p>
       </div>
-    </section>
+    </main>
   );
 }

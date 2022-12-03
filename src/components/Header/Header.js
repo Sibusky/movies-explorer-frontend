@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Outlet } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import MenuModal from './MenuModal/MenuModal';
 import './Header.css';
@@ -7,7 +6,7 @@ import HeaderNavigation from './HeaderNavigation/HeaderNavigation';
 
 export default function Header() {
   const [size, setSize] = useState();
-  const [isActvite, setIsActive,] = useState(false);
+  const [isActvite, setIsActive] = useState(false);
   const refWidth = useRef();
 
   const resizeHandler = () => {
@@ -24,18 +23,20 @@ export default function Header() {
   }, []);
 
   return (
-    <div>
-      <header className='header' ref={refWidth}>
-        <div className='header__container'>
-          <Logo />
-          {size > 780 ? <HeaderNavigation /> : null}
-        </div>
-        {size <= 780 ? <div className='header__menu-btn button' onClick={() => {setIsActive(true)}}></div> : null}
-      </header>
-
+    <header className='header' ref={refWidth}>
+      <div className='header__container'>
+        <Logo />
+        {size > 780 && <HeaderNavigation />}
+      </div>
+      {size <= 780 && (
+        <div
+          className='header__menu-btn button'
+          onClick={() => {
+            setIsActive(true);
+          }}
+        ></div>
+      )}
       <MenuModal isActvite={isActvite} setIsActive={setIsActive} />
-
-      <Outlet />
-    </div>
+    </header>
   );
 }
