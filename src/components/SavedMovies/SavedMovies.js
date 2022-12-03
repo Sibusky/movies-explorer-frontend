@@ -3,12 +3,12 @@ import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 import SearchForm from '../Movies/SearchForm/SearchForm';
 import './SavedMovies.css';
 
-export default function SavedMovies() {
+export default function SavedMovies({ formatTime }) {
 
   return (
     <div className='saved-movies'>
       <SearchForm />
-      <MoviesCardList />
+      <MoviesCardList formatTime={formatTime}/>
     </div>
   );
 }
