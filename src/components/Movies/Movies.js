@@ -1,11 +1,17 @@
-import React, { useState, useMemo } from 'react'
-import './Movies.css'
-import MoviesCardList from './MoviesCardList/MoviesCardList'
-import SearchForm from './SearchForm/SearchForm'
-import Preloader from '../UI/Preloader/Preloader'
+import React, { useState, useMemo } from 'react';
+import './Movies.css';
+import MoviesCardList from './MoviesCardList/MoviesCardList';
+import SearchForm from './SearchForm/SearchForm';
+import Preloader from '../UI/Preloader/Preloader';
 
-
-export default function Movies({ movies, formatTime, isMoviesLoading, searchQuery, setSearchQuery, searchButtonClick }) {
+export default function Movies({
+  movies,
+  formatTime,
+  isMoviesLoading,
+  searchQuery,
+  setSearchQuery,
+  searchButtonClick,
+}) {
   // const [searchQuery, setSearchQuery] = useState('');
 
   // const searchedMovies = movies.filter(movie => movie.nameRU.includes(searchQuery));
@@ -23,17 +29,20 @@ export default function Movies({ movies, formatTime, isMoviesLoading, searchQuer
   // }, [searchQuery, movies])
 
   return (
-    <div className='movies'>
-        <SearchForm searchQuery={searchQuery} setSearchQuery={setSearchQuery} searchButtonClick={searchButtonClick}/>
-        {isMoviesLoading
-          ? <Preloader />
-          : <MoviesCardList movies={movies} formatTime={formatTime}/>
-        }
-        {isMoviesLoading
-          ? null
-          : <button className='movies-cards__more-btn button'>Ещё</button>
-        }
-        
-    </div>
-  )
+    <main className='movies'>
+      <SearchForm
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchButtonClick={searchButtonClick}
+      />
+      {isMoviesLoading ? (
+        <Preloader />
+      ) : (
+        <MoviesCardList movies={movies} formatTime={formatTime} />
+      )}
+      {!isMoviesLoading && (
+        <button className='movies__more-btn button'>Ещё</button>
+      )}
+    </main>
+  );
 }

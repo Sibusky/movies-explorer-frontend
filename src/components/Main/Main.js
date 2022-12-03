@@ -15,12 +15,12 @@ export default function Main() {
   };
 
   return (
-    <div>
+    <main className='main'>
         <Promo scrollHendler={scrollHendler}/>
         <AboutProject scroll={refScroll}/>
         <Techs />
         <AboutMe />
         <Portfolio />
-    </div>
+    </main>
   )
 }

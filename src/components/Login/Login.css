@@ -85,7 +85,7 @@
   .login__input {
     font-family: 'Inter', Arial, sans-serif;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 14px;
     line-height: 14px;
     text-rendering: optimizeLegibility;
@@ -105,7 +105,6 @@
   
   .login__input:focus {
     outline: none;
-    border-bottom: 1px solid #3456f3;
   }
   
   .login__error {

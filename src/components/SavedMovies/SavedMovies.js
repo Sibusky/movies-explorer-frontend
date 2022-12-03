@@ -4,11 +4,10 @@ import SearchForm from '../Movies/SearchForm/SearchForm';
 import './SavedMovies.css';
 
 export default function SavedMovies({ formatTime }) {
-
   return (
-    <div className='saved-movies'>
+    <main className='saved-movies'>
       <SearchForm />
-      <MoviesCardList formatTime={formatTime}/>
-    </div>
+      <MoviesCardList formatTime={formatTime} />
+    </main>
   );
 }

@@ -1,5 +1,8 @@
 .App {
   background-color: #fafafa;
+  min-width: 300px;
+  max-width: 1388px;
+  margin: 0 auto;
 }
 
 /* Общие стили для переиспользуемых элементов  */

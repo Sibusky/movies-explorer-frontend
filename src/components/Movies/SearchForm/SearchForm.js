@@ -14,6 +14,7 @@ export default function SearchForm({ searchQuery, setSearchQuery, searchButtonCl
             placeholder='Фильм'
             onChange={setSearchQuery}
             value={searchQuery}
+            required
           />
           <button className='search-form__button button'
           onClick={searchButtonClick}></button>

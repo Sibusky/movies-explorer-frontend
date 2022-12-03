@@ -10,8 +10,8 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Main from '../Main/Main';
-import Header from '../Header/Header';
 import { moviesApi } from '../../utils/MoviesApi.js';
+// import Header from '../Header/Header';
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -72,8 +72,7 @@ function App() {
         <Route path='/'>
           <Route element={<Layout />}>
             <Route index element={<Main />} />
-            <Route element={<Header />}>
-              <Route
+            <Route
                 path='movies'
                 element={
                   <Movies
@@ -86,13 +85,10 @@ function App() {
                   />
                 }
               />
-              <Route
+             <Route
                 path='saved-movies'
                 element={<SavedMovies formatTime={formatTime} />}
               />
-            </Route>
-          </Route>
-          <Route element={<Header />}>
             <Route path='profile' element={<Profile user={user} />} />
           </Route>
           <Route path='signin' element={<Login user={user} />} />

@@ -28,7 +28,7 @@ export default function Register({ user }) {
   }
 
   return (
-    <section className='register'>
+    <main className='register'>
       <div className='register__container'>
         <div className='register__top'>
           <Logo />
@@ -89,7 +89,7 @@ export default function Register({ user }) {
                   Пароль
                 </label>
                 <input
-                  className='register__input register__input-error'
+                  className='register__input'
                   id='register__input-password'
                   type='password'
                   placeholder=''
@@ -115,6 +115,6 @@ export default function Register({ user }) {
           </Link>
         </p>
       </div>
-    </section>
+    </main>
   );
 }
