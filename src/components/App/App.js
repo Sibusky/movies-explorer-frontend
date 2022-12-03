@@ -13,15 +13,13 @@ import Main from '../Main/Main';
 import Header from '../Header/Header';
 import { moviesApi } from '../../utils/MoviesApi.js';
 
-// import MoviePic1 from '../../images/movie-pic.png';
-// import MoviePic2 from '../../images/movie-pic2.png';
-// import MoviePic3 from '../../images/movie-pic3.png';
-
 function App() {
   const [movies, setMovies] = useState([]);
   const [isMoviesLoading, setIsMoviesLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
+  const searchButtonClick = (e) => {
+    e.preventDefault();
     setIsMoviesLoading(true);
     moviesApi
       .getInitialMovies() // Загружаю данные карточек
@@ -30,11 +28,30 @@ function App() {
           let { nameRU, duration, trailerLink, image, id } = movie;
           return { nameRU, duration, trailerLink, image, id };
         });
-        setMovies(moviesList);
+        setMovies(
+          moviesList.filter((movie) =>
+            movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+        );
         setIsMoviesLoading(false);
       })
       .catch((err) => console.log(`Ошибка: ${err}`));
-  }, []);
+  };
+
+  // useEffect(() => {
+  //   setIsMoviesLoading(true);
+  //   moviesApi
+  //     .getInitialMovies() // Загружаю данные карточек
+  //     .then((res) => {
+  //       const moviesList = res.map((movie) => {
+  //         let { nameRU, duration, trailerLink, image, id } = movie;
+  //         return { nameRU, duration, trailerLink, image, id };
+  //       });
+  //       setMovies(moviesList);
+  //       setIsMoviesLoading(false);
+  //     })
+  //     .catch((err) => console.log(`Ошибка: ${err}`));
+  // }, []);
 
   // Изменяю формат времени
   const formatTime = (minutes) => {
@@ -58,7 +75,16 @@ function App() {
             <Route element={<Header />}>
               <Route
                 path='movies'
-                element={<Movies movies={movies} formatTime={formatTime} isMoviesLoading={isMoviesLoading} />}
+                element={
+                  <Movies
+                    movies={movies}
+                    formatTime={formatTime}
+                    isMoviesLoading={isMoviesLoading}
+                    searchQuery={searchQuery}
+                    setSearchQuery={(e) => setSearchQuery(e.target.value)}
+                    searchButtonClick={searchButtonClick}
+                  />
+                }
               />
               <Route
                 path='saved-movies'

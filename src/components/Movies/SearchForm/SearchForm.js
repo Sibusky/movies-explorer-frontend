@@ -1,7 +1,9 @@
 import React from 'react';
 import './SearchForm.css';
 
-export default function SearchForm() {
+export default function SearchForm({ searchQuery, setSearchQuery, searchButtonClick }) {
+  
+
   return (
     <form className='search-form'>
       <fieldset className='search-form__fieldset'>
@@ -10,8 +12,11 @@ export default function SearchForm() {
             className='search-form__input-query'
             type='text'
             placeholder='Фильм'
+            onChange={setSearchQuery}
+            value={searchQuery}
           />
-          <button className='search-form__button button' type='submit'></button>
+          <button className='search-form__button button'
+          onClick={searchButtonClick}></button>
         </div>
         <div className='search-form__short-movies-switch'>
           <label className='search-form__switch'>
