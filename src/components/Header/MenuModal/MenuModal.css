@@ -1,0 +1,124 @@
+.menu {
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.7s, opacity ease 0.7s;
+  z-index: 1;
+}
+
+.menu_opened {
+  visibility: visible;
+  opacity: 1;
+}
+
+.menu__content {
+  background-color: white;
+  width: 520px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: -520px;
+  transition: transform 0.7s;
+  z-index: 1;
+}
+
+.menu__content_opened {
+  transform: translateX(-520px);
+}
+
+.menu__navigator {
+  width: 100%;
+  height: 100%;
+  margin: 159px 0 0 0;
+}
+
+.menu__navigator-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu__navigator-link {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #000;
+  letter-spacing: 0;
+  margin: 0;
+  padding: 0 0 5px 0;
+}
+
+.menu__navigator-list-item {
+  margin: 28px 0 0 0;
+}
+
+.menu__navigator-list-item:last-of-type {
+  margin: 250px 0 0 0;
+}
+
+.menu__navigator-link_active {
+  border-bottom: 2px solid #000;
+}
+
+.menu__account-btn {
+  background-image: url(../../../images/account-btn.svg);
+  border-radius: 40px;
+  width: 100px;
+  height: 32px;
+  box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.08);
+}
+
+.menu__close-btn {
+  background-image: url(../../../images/menu-close-btn.svg);
+  background-color: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 20px;
+  right: 35px;
+}
+
+@media screen and (max-width: 550px) {
+  .menu__content {
+    width: 350px;
+    right: -350px;
+  }
+
+  .menu__content_opened {
+    transform: translateX(-350px);
+  }
+
+  .menu__close-btn {
+    right: 32px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .menu__content {
+    width: 320px;
+    right: -320px;
+  }
+
+  .menu__content_opened {
+    transform: translateX(-320px);
+  }
+
+  .menu__close-btn {
+    right: 30px;
+  }
+}

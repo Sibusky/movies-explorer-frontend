@@ -1,0 +1,133 @@
+.portfolio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 665px;
+  width: 100%;
+  background-color: #fafafa;
+}
+
+.portfolio__container {
+  width: calc((1140 / 1280) * 100%);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin: 107px 0 0;
+  padding: 0;
+}
+
+.portfolio__title {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #a0a0a0;
+  margin: 0;
+  padding: 0;
+}
+
+.portfolio__navigation {
+  width: 100%;
+  margin: 30px 0 0;
+}
+
+.portfolio__navigation-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.portfolio__navigation-list-item {
+  border-bottom: 1px solid #e8e8e8;
+  margin: 20px 0 0;
+  padding: 0 0 19px 0;
+}
+
+.portfolio__navigation-list-item:last-of-type {
+  border-bottom: none;
+}
+
+.portfolio__links-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portfolio__navigation-list-item-text {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 50px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  color: #000;
+  letter-spacing: -1.2px;
+  margin: 0 20px 0 0;
+  padding: 0;
+}
+
+.portfolio__arrow {
+  background-image: url(../../../images/arrow-link.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-width: 18px;
+  height: 18px;
+}
+
+@media screen and (max-width: 838px) {
+  .portfolio__container {
+    width: calc((668 / 768) * 100%);
+    margin: 97px 0 0;
+  }
+
+  .portfolio__navigation-list-item-text {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .portfolio__navigation-list-item-text {
+    font-size: 25px;
+    line-height: 40px;
+    max-width: 450px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .portfolio {
+    height: 540px;
+  }
+
+  .portfolio__container {
+    width: calc((292 / 320) * 100%);
+    margin: 70px 0 0;
+  }
+
+  .portfolio__title {
+    font-size: 14px;
+    line-height: 14px;
+  }
+
+  .portfolio__navigation {
+    margin: 24px 0 0;
+  }
+
+  .portfolio__navigation-list-item {
+    padding: 0 0 18px 0;
+  }
+
+  .portfolio__navigation-list-item-text {
+    font-size: 18px;
+    line-height: 28px;
+    max-width: 250px;
+  }
+
+  .portfolio__arrow {
+    width: 15px;
+    height: 15px;
+  }
+}
