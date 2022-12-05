@@ -4,7 +4,7 @@ class MoviesApi {
         this._baseUrl = baseUrl;
     }
 
-    getInitialMovies() {
+    getMovies() {
         return fetch(`${this._baseUrl}/beatfilm-movies`, {
           headers: {
             // Authorization: `Bearer ${localStorage.getItem("jwt")}`,

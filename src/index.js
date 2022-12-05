@@ -12,8 +12,3 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
-
-
-// Удалить обложки фильмов из папки image
-// FavIcon
-// Разобраться с Хедером
