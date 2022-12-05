@@ -1,32 +1,19 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import './Movies.css';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import SearchForm from './SearchForm/SearchForm';
 import Preloader from '../UI/Preloader/Preloader';
 
-export default function Movies({
-  movies,
-  formatTime,
-  isMoviesLoading,
-  searchQuery,
-  setSearchQuery,
-  searchButtonClick,
-}) {
-  // const [searchQuery, setSearchQuery] = useState('');
+export default function Movies({ movies, formatTime, isMoviesLoading, searchQuery, setSearchQuery, searchButtonClick }) {
 
-  // const searchedMovies = movies.filter(movie => movie.nameRU.includes(searchQuery));
-  // const searchMovies = (movies) => {
-  //   return movies.filter(movie => movie.nameRU.includes(searchQuery))
-  // }
+  const [visible, setVisible] = useState(2);
+  const showMoreMovies = () => {
+    setVisible((prevValue) => prevValue + 2)
+  }
 
-  // const searchButtonClick = (e) => {
-  //   e.preventDefault();
-  //   searchMovies();
-  // }
+  console.log(movies.length, visible)
 
-  // const searchedMovies = useMemo(() => {
-  //   return movies.filter(movie => movie.nameRU.includes(searchQuery))
-  // }, [searchQuery, movies])
+
 
   return (
     <main className='movies'>
@@ -37,11 +24,16 @@ export default function Movies({
       />
       {isMoviesLoading ? (
         <Preloader />
-      ) : (
-        <MoviesCardList movies={movies} formatTime={formatTime} />
+      ) : ( 
+        <MoviesCardList movies={movies} formatTime={formatTime} visible={visible} />
       )}
-      {!isMoviesLoading && (
-        <button className='movies__more-btn button'>Ещё</button>
+      {!movies.length && <h1>Ничего не найдено</h1>}
+      {/* {isZeroResult && <h1>Ничего не найдено</h1>} */}
+      {visible < movies.length && (
+        <button className='movies__more-btn button' 
+        onClick={showMoreMovies}
+        >
+          Ещё</button>
       )}
     </main>
   );

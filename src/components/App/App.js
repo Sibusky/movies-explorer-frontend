@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../Layout/Layout';
 import Movies from '../Movies/Movies';
@@ -17,26 +17,29 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [isMoviesLoading, setIsMoviesLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  // const [isZeroResult, setIsZeroResult] = useState(false)
 
+  //При нажатии на кнопку поиска вывожу результаты
   const searchButtonClick = (e) => {
     e.preventDefault();
     setIsMoviesLoading(true);
     moviesApi
-      .getInitialMovies() // Загружаю данные карточек
+      .getInitialMovies() // Загружаю данные всех фильмов
       .then((res) => {
         const moviesList = res.map((movie) => {
           let { nameRU, duration, trailerLink, image, id } = movie;
           return { nameRU, duration, trailerLink, image, id };
         });
-        setMovies(
-          moviesList.filter((movie) =>
-            movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-        );
+        setMovies(moviesList);
         setIsMoviesLoading(false);
       })
       .catch((err) => console.log(`Ошибка: ${err}`));
   };
+  
+
+  const filtredMovies = useMemo(() => {
+    return movies.filter(movie => movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase()))
+}, [searchQuery, movies])
 
   // useEffect(() => {
   //   setIsMoviesLoading(true);
@@ -60,12 +63,6 @@ function App() {
     return `${hour}ч ${min}м`;
   };
 
-  let user = {
-    name: 'Виталий',
-    email: 'pochta@yandex.ru',
-    password: '12345678',
-  };
-
   return (
     <div className='App'>
       <Routes>
@@ -76,12 +73,14 @@ function App() {
                 path='movies'
                 element={
                   <Movies
-                    movies={movies}
+                    movies={filtredMovies}
                     formatTime={formatTime}
                     isMoviesLoading={isMoviesLoading}
                     searchQuery={searchQuery}
                     setSearchQuery={(e) => setSearchQuery(e.target.value)}
                     searchButtonClick={searchButtonClick}
+                    // handleShowMoreMovies={handleShowMoreMovies}
+                    // isZeroResult={isZeroResult}
                   />
                 }
               />
@@ -89,10 +88,10 @@ function App() {
                 path='saved-movies'
                 element={<SavedMovies formatTime={formatTime} />}
               />
-            <Route path='profile' element={<Profile user={user} />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
-          <Route path='signin' element={<Login user={user} />} />
-          <Route path='signup' element={<Register user={user} />} />
+          <Route path='signin' element={<Login />} />
+          <Route path='signup' element={<Register />} />
           <Route path='*' element={<PageNotFound />} />
         </Route>
       </Routes>
@@ -101,3 +100,25 @@ function App() {
 }
 
 export default App;
+
+
+  // //При нажатии на кнопку поиска вывожу результаты
+  // const searchButtonClick = (e) => {
+  //   e.preventDefault();
+  //   setIsMoviesLoading(true);
+  //   moviesApi
+  //     .getInitialMovies() // Загружаю данные всех фильмов
+  //     .then((res) => {
+  //       const moviesList = res.map((movie) => {
+  //         let { nameRU, duration, trailerLink, image, id } = movie;
+  //         return { nameRU, duration, trailerLink, image, id };
+  //       });
+  //       setMovies(
+  //         moviesList.filter((movie) =>
+  //           movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
+  //         )
+  //       );
+  //       setIsMoviesLoading(false);
+  //     })
+  //     .catch((err) => console.log(`Ошибка: ${err}`));
+  // };

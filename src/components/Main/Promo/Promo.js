@@ -14,8 +14,8 @@ export default function Promo({ scrollHendler }) {
           <Link to='/signup' className='promo__auth-signup link'>
             Регистрация
           </Link>
-          <Link to='/signin' className='promo__auth-signin'>
-            <button className='promo__auth-signin-button button'>Войти</button>
+          <Link to='/signin' className='promo__auth-signin link'>
+            Войти
           </Link>
         </div>
       </div>
