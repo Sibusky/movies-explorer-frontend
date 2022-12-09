@@ -2,7 +2,7 @@ import React from 'react';
 import './MoviesCard.css';
 import { moviesApi } from '../../../utils/MoviesApi.js';
 
-export default function MoviesCard({ movie, formatTime }) {
+function MoviesCard({ movie, formatTime }) {
   return (
     <li className='movies-cards__item'>
       <div className='movies-cards__description'>
@@ -31,3 +31,5 @@ export default function MoviesCard({ movie, formatTime }) {
     </li>
   );
 }
+
+export default React.memo(MoviesCard);

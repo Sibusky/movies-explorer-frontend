@@ -1,7 +1,7 @@
 # Movies Explorer. Frontend.
 
 ## Frontend part of Diploma project after course "Web-developer"
-This repo represents a frontend part of Diploma project. Using this app you can create a user profile, find movies you like in a movies list and save this movies in your own collection. This app is working with two APIs: first I've made by myself in a first Diploma part (), second is given by Yandex.
+This repo represents a frontend part of Diploma project. Using this app you can create a user profile, find movies you like in a movies list and save this movies in your own collection. This app is working with two APIs: first I've made by myself in a first Diploma part, second is given by Yandex.
 
 ### Layout details:
 - flexbox layout,

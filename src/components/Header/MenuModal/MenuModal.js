@@ -2,15 +2,15 @@ import React from 'react';
 import './MenuModal.css';
 import { NavLink } from 'react-router-dom';
 
-export default function MenuModal({ isActvite, setIsActive }) {
+export default function MenuModal({ isMenuActvite, setIsMenuActive }) {
   return (
     <div
-      className={isActvite ? 'menu menu_opened' : 'menu'}
-      onClick={() => setIsActive(false)}
+      className={isMenuActvite ? 'menu menu_opened' : 'menu'}
+      onClick={() => setIsMenuActive(false)}
     >
       <div
         className={
-          isActvite ? 'menu__content menu__content_opened' : 'menu__content'
+          isMenuActvite ? 'menu__content menu__content_opened' : 'menu__content'
         }
         onClick={(e) => e.stopPropagation()}
       >
@@ -19,8 +19,8 @@ export default function MenuModal({ isActvite, setIsActive }) {
             <li className='menu__navigator-list-item'>
               <NavLink
                 to='/'
-                className={({ isActive }) =>
-                  isActive
+                className={({ isActive }) => 
+                isActive
                     ? 'menu__navigator-link menu__navigator-link_active link'
                     : 'menu__navigator-link link'
                 }
@@ -32,12 +32,12 @@ export default function MenuModal({ isActvite, setIsActive }) {
               <NavLink
                 to='/movies'
                 className={({ isActive }) =>
-                  isActive
+                isActive 
                     ? 'menu__navigator-link menu__navigator-link_active link'
                     : 'menu__navigator-link link'
                 }
                 onClick={() => {
-                  setIsActive(false);
+                  setIsMenuActive(false);
                 }}
               >
                 Фильмы
@@ -47,12 +47,12 @@ export default function MenuModal({ isActvite, setIsActive }) {
               <NavLink
                 to='/saved-movies'
                 className={({ isActive }) =>
-                  isActive
+                isActive
                     ? 'menu__navigator-link menu__navigator-link_active link'
                     : 'menu__navigator-link link'
                 }
                 onClick={() => {
-                  setIsActive(false);
+                  setIsMenuActive(false);
                 }}
               >
                 Сохранённые фильмы
@@ -68,7 +68,7 @@ export default function MenuModal({ isActvite, setIsActive }) {
         <button
           className='menu__close-btn button'
           onClick={() => {
-            setIsActive(false);
+            setIsMenuActive(false);
           }}
         ></button>
       </div>

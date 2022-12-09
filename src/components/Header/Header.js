@@ -4,39 +4,23 @@ import MenuModal from './MenuModal/MenuModal';
 import './Header.css';
 import HeaderNavigation from './HeaderNavigation/HeaderNavigation';
 
-export default function Header() {
-  const [size, setSize] = useState();
-  const [isActvite, setIsActive] = useState(false);
-  const refWidth = useRef();
-
-  const resizeHandler = () => {
-    const { clientWidth } = refWidth.current || {};
-    setSize(clientWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', resizeHandler);
-    resizeHandler();
-    return () => {
-      window.removeEventListener('resize', resizeHandler);
-    };
-  }, []);
+export default function Header({ isMenuActvite, setIsMenuActive, windowSize }) {
 
   return (
-    <header className='header' ref={refWidth}>
+    <header className='header'>
       <div className='header__container'>
         <Logo />
-        {size > 780 && <HeaderNavigation />}
+        {windowSize > 780 && <HeaderNavigation />}
       </div>
-      {size <= 780 && (
+      {windowSize <= 780 && (
         <div
           className='header__menu-btn button'
           onClick={() => {
-            setIsActive(true);
+            setIsMenuActive(true);
           }}
         ></div>
       )}
-      <MenuModal isActvite={isActvite} setIsActive={setIsActive} />
+      <MenuModal isMenuActvite={isMenuActvite} setIsMenuActive={setIsMenuActive} />
     </header>
   );
 }
