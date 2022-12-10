@@ -8,35 +8,17 @@ function Movies({
   movies,
   formatTime,
   beatFilmsSearchQuery,
-  setBeatFilmsSearchQuery,
   beatFilmsIsShort,
-  setIsShort,
+  setBeatFilmsIsShort,
   isLoading,
   searchError,
   windowSize,
-  beatFilmsMovies,
   searchButtonClick,
   emptyInputError,
   inputValue,
   setInputValue,
-  // onSearch,
 }) {
   const [defaultMoviesCards, setDefaultMoviesCards] = useState(0);
-
-  const handleSearchSubmit = useCallback((term, isShort) => {
-    console.log('handleSearchSubmit');
-    // localStorage.setItem('beatFilmsSearchQuery', term);
-    // localStorage.setItem('beatFilmsIsShort', isShort);
-    // onSearch(term, isShort);
-  }, []);
-
-  // useEffect(() => {
-  //   if ('beatFilmsSearchQuery' in localStorage || 'beatFilmsIsShort' in localStorage) {
-  //   const storedTerm = localStorage.getItem('beatSearchTerm') ?? '';
-  //   const sortedIsShort = localStorage.getItem('beatFilmsIsShort') ?? false;
-  //   onSearch(storedTerm, sortedIsShort);
-  //   };
-  //   }, []);
 
   // Определяю количество карточек на странице в зависимости от ширины.
   const moviesCards = useCallback(() => {
@@ -83,14 +65,9 @@ function Movies({
       <SearchForm
         beatFilmsSearchQuery={beatFilmsSearchQuery}
         beatFilmsIsShort={beatFilmsIsShort}
-        setIsShort={setIsShort}
-        // handleSearchSubmit={handleSearchSubmit}
-        beatFilmsMovies={beatFilmsMovies}
+        setBeatFilmsIsShort={setBeatFilmsIsShort}
         searchButtonClick={searchButtonClick}
         emptyInputError={emptyInputError}
-        setBeatFilmsSearchQuery={setBeatFilmsSearchQuery}
-        // initialTerm={initialTerm}
-        // initialIsShort={initialIsShort}
         inputValue={inputValue}
         setInputValue={setInputValue}
       />

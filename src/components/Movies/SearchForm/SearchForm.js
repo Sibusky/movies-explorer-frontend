@@ -1,42 +1,14 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import './SearchForm.css';
 
 function SearchForm({
-  beatFilmsSearchQuery,
-  setBeatFilmsSearchQuery,
-  setIsShort,
-  beatFilmsMovies,
   beatFilmsIsShort,
+  setBeatFilmsIsShort,
   searchButtonClick,
   emptyInputError,
   inputValue,
   setInputValue,
 }) {
-  // const [inputValue, setInputValue] = useState(''); // Двустороннее связывание для инпута
-  // const [emptyInputError, setEmptyInputError] = useState(false);
-
-  // При нажатии на кнопку поиска записываю значение инпута для загрузки фильмов,
-  // устанавливаю ошибку пустого инпута,
-  // записываю данные в localStorage
-  // const searchButtonClick = useCallback(
-  //   (e) => {
-  //     e.preventDefault();
-  //     if (!value) {
-  //       setEmptyInputError(true);
-  //     }
-  //     if (value) {
-  //       setEmptyInputError(false);
-  //       setSearchQuery(value);
-  //       localStorage.setItem('beatFilmsMovies', JSON.stringify(beatFilmsMovies));
-  //       localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
-  //       localStorage.setItem('beatFilmsIsShort', beatFilmsIsShort);
-  //     }
-  //   },
-  //   [value, setSearchQuery, beatFilmsMovies, beatFilmsSearchQuery]
-  // );
-
-  // console.log(beatFilmsIsShort, 'searchForm beatFilmsIsShort');
-
   return (
     <form className='search-form'>
       <fieldset className='search-form__fieldset'>
@@ -71,7 +43,7 @@ function SearchForm({
               className='search-form__checkbox'
               type='checkbox'
               checked={beatFilmsIsShort}
-              onChange={setIsShort}
+              onChange={setBeatFilmsIsShort}
             />
             <span className='search-form__slider search-form__slider_round'></span>
           </label>

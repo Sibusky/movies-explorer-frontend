@@ -20,27 +20,21 @@ import { moviesApi } from '../../utils/MoviesApi.js';
 
 function App() {
   const [beatFilmsMovies, setBeatFilmsMovies] = useState(null);
-  const [beatFilmsSearchQuery, setBeatFilmsSearchQuery] = useState(localStorage.getItem('beatFilmsSearchQuery') ?? '');
-  const [inputValue, setInputValue] = useState(localStorage.getItem('beatFilmsSearchQuery') ?? ''); // Двустороннее связывание для инпута
-  const [beatFilmsIsShort, setBeatFilmsIsShort] = useState(JSON.parse(localStorage.getItem('beatFilmsIsShort')) ?? false);
+  const [beatFilmsSearchQuery, setBeatFilmsSearchQuery] = useState(
+    localStorage.getItem('beatFilmsSearchQuery') ?? ''
+  );
+  const [inputValue, setInputValue] = useState(
+    localStorage.getItem('beatFilmsSearchQuery') ?? ''
+  ); // Двустороннее связывание для инпута
+  const [beatFilmsIsShort, setBeatFilmsIsShort] = useState(
+    JSON.parse(localStorage.getItem('beatFilmsIsShort')) ?? false
+  );
   const [emptyInputError, setEmptyInputError] = useState(false);
   const [isLoadingBeatFilms, setIsLoadingBeatFilms] = useState(false);
   const [searchError, setSearchError] = useState('');
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [isMenuActvite, setIsMenuActive] = useState(false);
   const refWidth = useRef(); // Реф для отслеживания ширины окна
-
-  console.log(typeof(localStorage.getItem('beatFilmsIsShort')))
-
-  // localStorage.setItem('beatFilmsMovies', JSON.stringify(beatFilmsMovies));
-  // localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
-  // localStorage.setItem('beatFilmsIsShort', beatFilmsIsShort);
-
-  // // Устанавливаю текст запроса после сабмита и положение переключателя
-  // const handleBeatSearchSubmit = useCallback((beatFilmsSearchQuery, beatFilmsIsShort) => {
-  //   setBeatFilmsSearchQuery(beatFilmsSearchQuery);
-  //   setBeatFilmsIsShort(beatFilmsIsShort)
-  // }, [])
 
   // При нажатии на кнопку поиска записываю значение инпута для загрузки фильмов,
   // устанавливаю ошибку пустого инпута,
@@ -52,15 +46,11 @@ function App() {
     if (inputValue) {
       setEmptyInputError(false);
       setBeatFilmsSearchQuery(inputValue);
-      // localStorage.setItem('beatFilmsMovies', JSON.stringify(beatFilmsMovies));
-      // localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
-      // localStorage.setItem('beatFilmsIsShort', beatFilmsIsShort);
     }
-  }, [inputValue, beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
+  }, [inputValue]);
 
   // Сохраняю данные запроса и чекбокса в localStorage
   useEffect(() => {
-    // localStorage.setItem('beatFilmsMovies', JSON.stringify(beatFilmsMovies));
     localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
     localStorage.setItem('beatFilmsIsShort', JSON.stringify(beatFilmsIsShort));
   }, [beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
@@ -69,12 +59,14 @@ function App() {
   useEffect(() => {
     if (
       !beatFilmsMovies &&
-      (beatFilmsSearchQuery.length > 0) // Убрал из условия beatFilmsIsShort
+      beatFilmsSearchQuery.length > 0 // Убрал из условия beatFilmsIsShort
     ) {
       if ('beatFilmsMovies' in localStorage) {
         setBeatFilmsMovies(JSON.parse(localStorage.getItem('beatFilmsMovies')));
         setBeatFilmsSearchQuery(localStorage.getItem('beatFilmsSearchQuery'));
-        setBeatFilmsIsShort(JSON.parse(localStorage.getItem('beatFilmsIsShort')))
+        setBeatFilmsIsShort(
+          JSON.parse(localStorage.getItem('beatFilmsIsShort'))
+        );
       } else {
         setIsLoadingBeatFilms(true);
         moviesApi
@@ -140,17 +132,14 @@ function App() {
               path='movies'
               element={
                 <Movies
+                  movies={filtredMovies}
+                  formatTime={formatTime}
                   beatFilmsSearchQuery={beatFilmsSearchQuery}
-                  setBeatFilmsSearchQuery={setBeatFilmsSearchQuery}
-                  beatFilmsMovies={beatFilmsMovies}
                   beatFilmsIsShort={beatFilmsIsShort}
-                  setIsShort={(e) => {
-                    console.log(e.target)
+                  setBeatFilmsIsShort={() => {
                     setBeatFilmsIsShort(!beatFilmsIsShort);
                   }}
                   isLoading={isLoadingBeatFilms}
-                  movies={filtredMovies}
-                  formatTime={formatTime}
                   windowSize={windowSize}
                   searchError={searchError}
                   searchButtonClick={(e) =>
@@ -159,7 +148,6 @@ function App() {
                   emptyInputError={emptyInputError}
                   inputValue={inputValue}
                   setInputValue={setInputValue}
-                  // onSearch={handleBeatSearchSubmit}
                 />
               }
             />

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({ movies, formatTime, renderQuantity }) {
+function MoviesCardList({ movies, formatTime }) {
   return (
     <section className='movies-cards'>
       <ul className='movies-cards__list'>
