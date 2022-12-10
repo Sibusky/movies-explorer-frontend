@@ -7,14 +7,36 @@ import Preloader from '../UI/Preloader/Preloader';
 function Movies({
   movies,
   formatTime,
-  searchQuery,
-  setSearchQuery,
+  beatFilmsSearchQuery,
+  setBeatFilmsSearchQuery,
+  beatFilmsIsShort,
   setIsShort,
   isLoading,
   searchError,
   windowSize,
+  beatFilmsMovies,
+  searchButtonClick,
+  emptyInputError,
+  inputValue,
+  setInputValue,
+  // onSearch,
 }) {
   const [defaultMoviesCards, setDefaultMoviesCards] = useState(0);
+
+  const handleSearchSubmit = useCallback((term, isShort) => {
+    console.log('handleSearchSubmit');
+    // localStorage.setItem('beatFilmsSearchQuery', term);
+    // localStorage.setItem('beatFilmsIsShort', isShort);
+    // onSearch(term, isShort);
+  }, []);
+
+  // useEffect(() => {
+  //   if ('beatFilmsSearchQuery' in localStorage || 'beatFilmsIsShort' in localStorage) {
+  //   const storedTerm = localStorage.getItem('beatSearchTerm') ?? '';
+  //   const sortedIsShort = localStorage.getItem('beatFilmsIsShort') ?? false;
+  //   onSearch(storedTerm, sortedIsShort);
+  //   };
+  //   }, []);
 
   // Определяю количество карточек на странице в зависимости от ширины.
   const moviesCards = useCallback(() => {
@@ -30,10 +52,10 @@ function Movies({
   // переключателя, чтобы происходил сброс значения defaultMoviesCards
   // после нового запроса.
   useEffect(() => {
-    if (searchQuery.length || setIsShort) {
+    if (beatFilmsSearchQuery.length || beatFilmsIsShort) {
       moviesCards();
     }
-  }, [searchQuery, setIsShort, moviesCards]);
+  }, [beatFilmsSearchQuery, beatFilmsIsShort, moviesCards]);
 
   // Логика нажатия на кнопку "ещё".
   const showMoreMovies = () => {
@@ -59,9 +81,18 @@ function Movies({
   return (
     <main className='movies'>
       <SearchForm
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
+        beatFilmsSearchQuery={beatFilmsSearchQuery}
+        beatFilmsIsShort={beatFilmsIsShort}
         setIsShort={setIsShort}
+        // handleSearchSubmit={handleSearchSubmit}
+        beatFilmsMovies={beatFilmsMovies}
+        searchButtonClick={searchButtonClick}
+        emptyInputError={emptyInputError}
+        setBeatFilmsSearchQuery={setBeatFilmsSearchQuery}
+        // initialTerm={initialTerm}
+        // initialIsShort={initialIsShort}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
       />
       {searchError && (
         <p className='movies__search-error-text'>

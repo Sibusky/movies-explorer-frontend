@@ -1,25 +1,41 @@
 import React, { useCallback, useState } from 'react';
 import './SearchForm.css';
 
-function SearchForm({ setSearchQuery, setIsShort, beatFilmsIsShort }) {
-  const [value, setValue] = useState(''); // Двустороннее связывание для инпута
-  const [emptyInputError, setEmptyInputError] = useState(false);
+function SearchForm({
+  beatFilmsSearchQuery,
+  setBeatFilmsSearchQuery,
+  setIsShort,
+  beatFilmsMovies,
+  beatFilmsIsShort,
+  searchButtonClick,
+  emptyInputError,
+  inputValue,
+  setInputValue,
+}) {
+  // const [inputValue, setInputValue] = useState(''); // Двустороннее связывание для инпута
+  // const [emptyInputError, setEmptyInputError] = useState(false);
 
-  // При нажатии на кнопку поиска записываю значение инпута для загрузки фильмов
-  // и устанавливаю ошибку пустого инпута.
-  const searchButtonClick = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (!value) {
-        setEmptyInputError(true);
-      }
-      if (value) {
-        setEmptyInputError(false);
-        setSearchQuery(value);
-      }
-    },
-    [value, setSearchQuery]
-  );
+  // При нажатии на кнопку поиска записываю значение инпута для загрузки фильмов,
+  // устанавливаю ошибку пустого инпута,
+  // записываю данные в localStorage
+  // const searchButtonClick = useCallback(
+  //   (e) => {
+  //     e.preventDefault();
+  //     if (!value) {
+  //       setEmptyInputError(true);
+  //     }
+  //     if (value) {
+  //       setEmptyInputError(false);
+  //       setSearchQuery(value);
+  //       localStorage.setItem('beatFilmsMovies', JSON.stringify(beatFilmsMovies));
+  //       localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
+  //       localStorage.setItem('beatFilmsIsShort', beatFilmsIsShort);
+  //     }
+  //   },
+  //   [value, setSearchQuery, beatFilmsMovies, beatFilmsSearchQuery]
+  // );
+
+  // console.log(beatFilmsIsShort, 'searchForm beatFilmsIsShort');
 
   return (
     <form className='search-form'>
@@ -33,8 +49,8 @@ function SearchForm({ setSearchQuery, setIsShort, beatFilmsIsShort }) {
             }
             type='text'
             placeholder='Фильм'
-            onChange={(e) => setValue(e.target.value)}
-            value={value}
+            onChange={(e) => setInputValue(e.target.value)}
+            value={inputValue}
             required
           />
           {emptyInputError && (

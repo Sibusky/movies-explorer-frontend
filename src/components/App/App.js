@@ -20,40 +20,74 @@ import { moviesApi } from '../../utils/MoviesApi.js';
 
 function App() {
   const [beatFilmsMovies, setBeatFilmsMovies] = useState(null);
-  const [beatFilmsSearchQuery, setBeatFilmsSearchQuery] = useState('');
-  const [beatFilmsIsShort, setBeatFilmsIsShort] = useState(false);
+  const [beatFilmsSearchQuery, setBeatFilmsSearchQuery] = useState(localStorage.getItem('beatFilmsSearchQuery') ?? '');
+  const [inputValue, setInputValue] = useState(localStorage.getItem('beatFilmsSearchQuery') ?? ''); // Двустороннее связывание для инпута
+  const [beatFilmsIsShort, setBeatFilmsIsShort] = useState(JSON.parse(localStorage.getItem('beatFilmsIsShort')) ?? false);
+  const [emptyInputError, setEmptyInputError] = useState(false);
   const [isLoadingBeatFilms, setIsLoadingBeatFilms] = useState(false);
   const [searchError, setSearchError] = useState('');
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [isMenuActvite, setIsMenuActive] = useState(false);
   const refWidth = useRef(); // Реф для отслеживания ширины окна
 
-  localStorage.setItem('beatFilmsMovies', JSON.stringify(beatFilmsMovies));
-  localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
-  localStorage.setItem('beatFilmsIsShort', beatFilmsIsShort);
+  console.log(typeof(localStorage.getItem('beatFilmsIsShort')))
+
+  // localStorage.setItem('beatFilmsMovies', JSON.stringify(beatFilmsMovies));
+  // localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
+  // localStorage.setItem('beatFilmsIsShort', beatFilmsIsShort);
+
+  // // Устанавливаю текст запроса после сабмита и положение переключателя
+  // const handleBeatSearchSubmit = useCallback((beatFilmsSearchQuery, beatFilmsIsShort) => {
+  //   setBeatFilmsSearchQuery(beatFilmsSearchQuery);
+  //   setBeatFilmsIsShort(beatFilmsIsShort)
+  // }, [])
+
+  // При нажатии на кнопку поиска записываю значение инпута для загрузки фильмов,
+  // устанавливаю ошибку пустого инпута,
+  // записываю данные в localStorage
+  const searchButtonClick = useCallback(() => {
+    if (!inputValue) {
+      setEmptyInputError(true);
+    }
+    if (inputValue) {
+      setEmptyInputError(false);
+      setBeatFilmsSearchQuery(inputValue);
+      // localStorage.setItem('beatFilmsMovies', JSON.stringify(beatFilmsMovies));
+      // localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
+      // localStorage.setItem('beatFilmsIsShort', beatFilmsIsShort);
+    }
+  }, [inputValue, beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
+
+  // Сохраняю данные запроса и чекбокса в localStorage
+  useEffect(() => {
+    // localStorage.setItem('beatFilmsMovies', JSON.stringify(beatFilmsMovies));
+    localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
+    localStorage.setItem('beatFilmsIsShort', JSON.stringify(beatFilmsIsShort));
+  }, [beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
 
   // Загружаю фильмы
   useEffect(() => {
-
-
     if (
       !beatFilmsMovies &&
-      (beatFilmsSearchQuery.length > 0 || beatFilmsIsShort)
+      (beatFilmsSearchQuery.length > 0) // Убрал из условия beatFilmsIsShort
     ) {
-      // if ('beatFilmsMovies' in localStorage) {
-      //   setBeatFilmsMovies(JSON.parse(localStorage.get('beatFilmsMovies')));
-      // } else {
+      if ('beatFilmsMovies' in localStorage) {
+        setBeatFilmsMovies(JSON.parse(localStorage.getItem('beatFilmsMovies')));
+        setBeatFilmsSearchQuery(localStorage.getItem('beatFilmsSearchQuery'));
+        setBeatFilmsIsShort(JSON.parse(localStorage.getItem('beatFilmsIsShort')))
+      } else {
         setIsLoadingBeatFilms(true);
         moviesApi
           .getMovies()
-          .then((movies) => setBeatFilmsMovies(movies))
+          .then((movies) => {
+            setBeatFilmsMovies(movies);
+            localStorage.setItem('beatFilmsMovies', JSON.stringify(movies));
+          })
           .catch((err) => setSearchError(err))
           .finally(() => setIsLoadingBeatFilms(false));
-      // }
+      }
     }
   }, [beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
-
-  console.log('beatFilmsMovies' in localStorage)
 
   // Фильтрую фильмы по поисковому запросу и переключателю
   const filtredMovies = useMemo(() => {
@@ -106,12 +140,12 @@ function App() {
               path='movies'
               element={
                 <Movies
-                  searchQuery={beatFilmsSearchQuery}
-                  setSearchQuery={(beatFilmsSearchQuery) =>
-                    setBeatFilmsSearchQuery(beatFilmsSearchQuery)
-                  }
+                  beatFilmsSearchQuery={beatFilmsSearchQuery}
+                  setBeatFilmsSearchQuery={setBeatFilmsSearchQuery}
+                  beatFilmsMovies={beatFilmsMovies}
                   beatFilmsIsShort={beatFilmsIsShort}
-                  setIsShort={() => {
+                  setIsShort={(e) => {
+                    console.log(e.target)
                     setBeatFilmsIsShort(!beatFilmsIsShort);
                   }}
                   isLoading={isLoadingBeatFilms}
@@ -119,6 +153,13 @@ function App() {
                   formatTime={formatTime}
                   windowSize={windowSize}
                   searchError={searchError}
+                  searchButtonClick={(e) =>
+                    searchButtonClick(e.preventDefault())
+                  }
+                  emptyInputError={emptyInputError}
+                  inputValue={inputValue}
+                  setInputValue={setInputValue}
+                  // onSearch={handleBeatSearchSubmit}
                 />
               }
             />
