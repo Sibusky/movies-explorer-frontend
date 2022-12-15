@@ -1,12 +1,6 @@
 import './App.css';
-import React, {
-  useEffect,
-  useState,
-  useMemo,
-  useRef,
-  useCallback,
-} from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import Layout from '../Layout/Layout';
 import Movies from '../Movies/Movies';
@@ -17,6 +11,7 @@ import Register from '../Register/Register';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Main from '../Main/Main';
 import { moviesApi } from '../../utils/MoviesApi.js';
+import { mainApi } from '../../utils/MainApi';
 
 function App() {
   const [beatFilmsMovies, setBeatFilmsMovies] = useState(null);
@@ -34,7 +29,67 @@ function App() {
   const [searchError, setSearchError] = useState('');
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [isMenuActvite, setIsMenuActive] = useState(false);
-  const refWidth = useRef(); // Реф для отслеживания ширины окна
+  const [savedMovies, setSavedMovies] = useState(null);
+
+  let { pathname } = useLocation();
+
+  // Обработчик клика лайка
+  const handleLikeClick = (movie) => {
+    const isMovieSaved = savedMovies.some((item) => item.movieId === movie.id);
+
+    // handleSaveMovie(movie)
+    if (!isMovieSaved) {
+      mainApi
+        .saveMovie({
+          movieId: movie.id,
+          nameRU: movie.nameRU,
+          image: moviesApi._baseUrl + movie.image.url,
+          trailerLink: movie.trailerLink,
+          duration: movie.duration,
+          country: movie.country,
+          director: movie.director,
+          year: movie.year,
+          description: movie.description,
+          thumbnail: moviesApi._baseUrl + movie.image.formats.thumbnail.url,
+          owner: movie.owner,
+          nameEN: movie.nameEN,
+        })
+        .then((savedMovie) => setSavedMovies([savedMovie, ...savedMovies]))
+        .catch((err) => console.log(err, err.status, err.message));
+    } else {
+      const savedMovieId = savedMovies.find(
+        (item) => item.movieId === movie.id
+      )._id;
+      mainApi
+        .deleteMovie(savedMovieId)
+        .then(() => {
+          setSavedMovies((state) =>
+            state.filter((item) => item.movieId !== movie.id)
+          );
+        })
+        .catch((err) => console.log(err, err.status, err.message));
+    }
+  };
+
+  // Удаляю карточку из сохранённых фильмов
+  const handleDeleteClick = (movie) => {
+    mainApi
+      .deleteMovie(movie._id)
+      .then(() => {
+        setSavedMovies((state) =>
+          state.filter((item) => item.movieId !== movie.id)
+        );
+      })
+      .catch((err) => console.log(err, err.status, err.message));
+  };
+
+  // Получаю сохранённые фильмы
+  useEffect(() => {
+    mainApi
+      .getSavedMovies()
+      .then((movies) => setSavedMovies(movies.reverse()))
+      .catch((err) => setSearchError(err));
+  }, [savedMovies]);
 
   // При нажатии на кнопку поиска записываю значение инпута для загрузки фильмов,
   // устанавливаю ошибку пустого инпута,
@@ -55,7 +110,7 @@ function App() {
     localStorage.setItem('beatFilmsIsShort', JSON.stringify(beatFilmsIsShort));
   }, [beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
 
-  // Загружаю фильмы
+  // Загружаю фильмы с сервера BeatFilms
   useEffect(() => {
     if (
       !beatFilmsMovies &&
@@ -94,18 +149,17 @@ function App() {
   }, [beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
 
   // Отслеживаю ширину окна
-  const resizeHandler = debounce(() => {
-    const { clientWidth } = refWidth.current || {};
-    setWindowSize(clientWidth);
+  const handleResize = debounce(() => {
+    setWindowSize(window.innerWidth);
   }, 100);
 
   // Устанавливаю слушатель событий на размер окна
   useEffect(() => {
-    window.addEventListener('resize', resizeHandler);
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener('resize', resizeHandler);
+      window.removeEventListener('resize', handleResize);
     };
-  }, [resizeHandler]);
+  }, [handleResize]);
 
   // Изменяю формат времени
   const formatTime = (minutes) => {
@@ -115,7 +169,7 @@ function App() {
   };
 
   return (
-    <div className='App' ref={refWidth}>
+    <div className='App'>
       <Routes>
         <Route path='/'>
           <Route
@@ -148,12 +202,22 @@ function App() {
                   emptyInputError={emptyInputError}
                   inputValue={inputValue}
                   setInputValue={setInputValue}
+                  onCardSave={handleLikeClick}
+                  savedMovies={savedMovies}
                 />
               }
             />
             <Route
               path='saved-movies'
-              element={<SavedMovies formatTime={formatTime} />}
+              element={
+                <SavedMovies
+                  movies={savedMovies}
+                  formatTime={formatTime}
+                  windowSize={windowSize}
+                  pathname={pathname}
+                  onCardDelete={handleDeleteClick}
+                />
+              }
             />
             <Route path='profile' element={<Profile />} />
           </Route>

@@ -17,6 +17,8 @@ function Movies({
   emptyInputError,
   inputValue,
   setInputValue,
+  onCardSave,
+  savedMovies
 }) {
   const [defaultMoviesCards, setDefaultMoviesCards] = useState(0);
 
@@ -86,6 +88,8 @@ function Movies({
               <MoviesCardList
                 movies={movies.slice(0, defaultMoviesCards)}
                 formatTime={formatTime}
+                onCardSave={onCardSave}
+                savedMovies={savedMovies}
               />
               {isButtonMoreHidden && (
                 <button

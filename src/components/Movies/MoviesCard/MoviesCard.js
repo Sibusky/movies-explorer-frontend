@@ -2,7 +2,19 @@ import React from 'react';
 import './MoviesCard.css';
 import { moviesApi } from '../../../utils/MoviesApi.js';
 
-function MoviesCard({ movie, formatTime }) {
+function MoviesCard({ movie, formatTime, onCardSave, onCardDelete, savedMovies, pathname }) {
+  const isLiked = savedMovies
+    ? savedMovies.some((item) => item.movieId === movie.id)
+    : false;
+
+  const handleLikeClick = () => {
+    onCardSave(movie);
+  };
+
+  const handleDeleteClick = () => {
+    onCardDelete(movie);
+  };
+
   return (
     <li className='movies-cards__item'>
       <div className='movies-cards__description'>
@@ -10,11 +22,22 @@ function MoviesCard({ movie, formatTime }) {
           <h3 className='movies-cards__title'>{movie.nameRU}</h3>
           <p className='movies-cards__duration'>{formatTime(movie.duration)}</p>
         </div>
-        <button
-          className='movies-cards__like-btn movie__like-btn_active button'
-          //   onClick={handleLikeClick}
-          type='button'
-        ></button>
+        {pathname === '/saved-movies' ? (
+          <button
+            className='movies-cards__delete-btn button'
+            onClick={handleDeleteClick}
+          ></button>
+        ) : (
+          <button
+            className={
+              isLiked
+                ? 'movies-cards__like-btn movies-cards__like-btn_active button'
+                : 'movies-cards__like-btn button'
+            }
+            onClick={handleLikeClick}
+            type='button'
+          ></button>
+        )}
       </div>
       <a
         className='movies-cards__trailer-link link'
@@ -25,7 +48,9 @@ function MoviesCard({ movie, formatTime }) {
         <img
           className='movies-cards__image'
           alt={movie.nameRU}
-          src={moviesApi._baseUrl + movie.image.url}
+          src={
+            movie.image.url ? moviesApi._baseUrl + movie.image.url : movie.image
+          }
         />
       </a>
     </li>
