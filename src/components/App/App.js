@@ -77,7 +77,7 @@ function App() {
       .deleteMovie(movie._id)
       .then(() => {
         setSavedMovies((state) =>
-          state.filter((item) => item.movieId !== movie.id)
+          state.filter((item) => item.movieId !== movie.movieId)
         );
       })
       .catch((err) => console.log(err, err.status, err.message));
@@ -89,7 +89,7 @@ function App() {
       .getSavedMovies()
       .then((movies) => setSavedMovies(movies.reverse()))
       .catch((err) => setSearchError(err));
-  }, [savedMovies]);
+  }, []);
 
   // При нажатии на кнопку поиска записываю значение инпута для загрузки фильмов,
   // устанавливаю ошибку пустого инпута,
@@ -216,6 +216,8 @@ function App() {
                   windowSize={windowSize}
                   pathname={pathname}
                   onCardDelete={handleDeleteClick}
+                  inputValue={inputValue}
+                  setInputValue={setInputValue}
                 />
               }
             />

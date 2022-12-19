@@ -9,11 +9,13 @@ export default function SavedMovies({
   formatTime,
   pathname,
   onCardDelete,
+  inputValue,
+  setInputValue,
 }) {
 
   return (
     <main className='saved-movies'>
-      <SearchForm />
+      <SearchForm setInputValue={setInputValue} inputValue={inputValue}/>
       {!movies ? null : (
         <MoviesCardList
           movies={movies}

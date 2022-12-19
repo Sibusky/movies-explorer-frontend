@@ -8,7 +8,7 @@ class MainApi {
     return fetch(`${this._baseUrl}/movies`, {
       headers: {
         // Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzA2NzQ5MzYsImV4cCI6MTY3MTI3OTczNn0.Lbe0YjwqJP_yjkreZX-iTDI5sbGr-Pk41JJ4_tqbHfI`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzE0MzIwODEsImV4cCI6MTY3MjAzNjg4MX0.4yb0X5jnnCDkjR1LnNP2hgK4sTOEAsVLgxfikbNGe8g`,
         'Content-Type': 'application/json',
       },
     }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
@@ -18,7 +18,7 @@ class MainApi {
     return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzA2NzQ5MzYsImV4cCI6MTY3MTI3OTczNn0.Lbe0YjwqJP_yjkreZX-iTDI5sbGr-Pk41JJ4_tqbHfI`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzE0MzIwODEsImV4cCI6MTY3MjAzNjg4MX0.4yb0X5jnnCDkjR1LnNP2hgK4sTOEAsVLgxfikbNGe8g`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(movie),
@@ -29,7 +29,7 @@ class MainApi {
     return fetch(`${this._baseUrl}/movies/${id}`, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzA2NzQ5MzYsImV4cCI6MTY3MTI3OTczNn0.Lbe0YjwqJP_yjkreZX-iTDI5sbGr-Pk41JJ4_tqbHfI`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzE0MzIwODEsImV4cCI6MTY3MjAzNjg4MX0.4yb0X5jnnCDkjR1LnNP2hgK4sTOEAsVLgxfikbNGe8g`,
         'Content-Type': 'application/json',
       },
       // body: JSON.stringify(movie),
@@ -43,4 +43,4 @@ export const mainApi = new MainApi({
   headers: {},
 });
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzA2NzQ5MzYsImV4cCI6MTY3MTI3OTczNn0.Lbe0YjwqJP_yjkreZX-iTDI5sbGr-Pk41JJ4_tqbHfI
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzE0MzIwODEsImV4cCI6MTY3MjAzNjg4MX0.4yb0X5jnnCDkjR1LnNP2hgK4sTOEAsVLgxfikbNGe8g
