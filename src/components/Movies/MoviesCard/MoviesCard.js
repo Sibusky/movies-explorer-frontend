@@ -2,15 +2,26 @@ import React from 'react';
 import './MoviesCard.css';
 import { moviesApi } from '../../../utils/MoviesApi.js';
 
-function MoviesCard({ movie, formatTime, onCardSave, onCardDelete, savedMovies, pathname }) {
+function MoviesCard({
+  movie,
+  formatTime,
+  onCardSave,
+  onCardDelete,
+  savedMovies,
+  pathname,
+}) {
+  // Проверяю, находится ли фильм в сохранённых,
+  // чтобы изменить кнопку лайка
   const isLiked = savedMovies
     ? savedMovies.some((item) => item.movieId === movie.id)
     : false;
 
+  // Обработчик клика лайка
   const handleLikeClick = () => {
     onCardSave(movie);
   };
 
+  // Обработчик клика удаления
   const handleDeleteClick = () => {
     onCardDelete(movie);
   };

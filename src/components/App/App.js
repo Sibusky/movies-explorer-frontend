@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import Layout from '../Layout/Layout';
@@ -18,26 +18,48 @@ function App() {
   const [beatFilmsSearchQuery, setBeatFilmsSearchQuery] = useState(
     localStorage.getItem('beatFilmsSearchQuery') ?? ''
   );
-  const [inputValue, setInputValue] = useState(
-    localStorage.getItem('beatFilmsSearchQuery') ?? ''
-  ); // Двустороннее связывание для инпута
   const [beatFilmsIsShort, setBeatFilmsIsShort] = useState(
     JSON.parse(localStorage.getItem('beatFilmsIsShort')) ?? false
   );
-  const [emptyInputError, setEmptyInputError] = useState(false);
+  const [beatFilmsInputValue, setBeatFilmsInputValue] = useState(
+    localStorage.getItem('beatFilmsSearchQuery') ?? ''
+  ); // Двустороннее связывание для инпута
+
+  const [savedMovies, setSavedMovies] = useState(null);
+  const [savedMoviesSearchQuery, setSavedMoviesSearchQuery] = useState('');
+  const [savedMoviesIsShort, setSavedMoviesIsShort] = useState(false);
+  const [savedMoviesInputValue, setSavedMoviesInutValue] = useState('');
+
   const [isLoadingBeatFilms, setIsLoadingBeatFilms] = useState(false);
   const [searchError, setSearchError] = useState('');
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [isMenuActvite, setIsMenuActive] = useState(false);
-  const [savedMovies, setSavedMovies] = useState(null);
 
   let { pathname } = useLocation();
+
+  // Отслеживаю ширину окна
+  const handleResize = debounce(() => {
+    setWindowSize(window.innerWidth);
+  }, 100);
+
+  // Устанавливаю слушатель событий на размер окна
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [handleResize]);
+
+  // Изменяю формат времени
+  const formatTime = (minutes) => {
+    const min = minutes % 60;
+    const hour = Math.floor(minutes / 60);
+    return hour ? `${hour}ч ${min}м` : `${min}м`;
+  };
 
   // Обработчик клика лайка
   const handleLikeClick = (movie) => {
     const isMovieSaved = savedMovies.some((item) => item.movieId === movie.id);
-
-    // handleSaveMovie(movie)
     if (!isMovieSaved) {
       mainApi
         .saveMovie({
@@ -91,19 +113,6 @@ function App() {
       .catch((err) => setSearchError(err));
   }, []);
 
-  // При нажатии на кнопку поиска записываю значение инпута для загрузки фильмов,
-  // устанавливаю ошибку пустого инпута,
-  // записываю данные в localStorage
-  const searchButtonClick = useCallback(() => {
-    if (!inputValue) {
-      setEmptyInputError(true);
-    }
-    if (inputValue) {
-      setEmptyInputError(false);
-      setBeatFilmsSearchQuery(inputValue);
-    }
-  }, [inputValue]);
-
   // Сохраняю данные запроса и чекбокса в localStorage
   useEffect(() => {
     localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
@@ -137,36 +146,16 @@ function App() {
   }, [beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
 
   // Фильтрую фильмы по поисковому запросу и переключателю
-  const filtredMovies = useMemo(() => {
-    if (!beatFilmsMovies) {
+  const filtredMovies = useCallback((movies, searchQuery, isShort) => {
+    if (!movies) {
       return null;
     }
-    return beatFilmsMovies.filter(
+    return movies.filter(
       (movie) =>
-        (beatFilmsIsShort ? movie.duration <= 40 : movie) &&
-        movie.nameRU.toLowerCase().includes(beatFilmsSearchQuery.toLowerCase())
+        (isShort ? movie.duration <= 40 : movie) &&
+        movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
-
-  // Отслеживаю ширину окна
-  const handleResize = debounce(() => {
-    setWindowSize(window.innerWidth);
-  }, 100);
-
-  // Устанавливаю слушатель событий на размер окна
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [handleResize]);
-
-  // Изменяю формат времени
-  const formatTime = (minutes) => {
-    const min = minutes % 60;
-    const hour = Math.floor(minutes / 60);
-    return hour ? `${hour}ч ${min}м` : `${min}м`;
-  };
+  }, []);
 
   return (
     <div className='App'>
@@ -186,24 +175,23 @@ function App() {
               path='movies'
               element={
                 <Movies
-                  movies={filtredMovies}
+                  movies={filtredMovies(
+                    beatFilmsMovies,
+                    beatFilmsSearchQuery,
+                    beatFilmsIsShort
+                  )}
                   formatTime={formatTime}
-                  beatFilmsSearchQuery={beatFilmsSearchQuery}
-                  beatFilmsIsShort={beatFilmsIsShort}
-                  setBeatFilmsIsShort={() => {
-                    setBeatFilmsIsShort(!beatFilmsIsShort);
-                  }}
-                  isLoading={isLoadingBeatFilms}
                   windowSize={windowSize}
+                  isLoading={isLoadingBeatFilms}
+                  searchQuery={beatFilmsSearchQuery}
+                  setSearchQuery={setBeatFilmsSearchQuery}
+                  isShort={beatFilmsIsShort}
+                  setIsShort={setBeatFilmsIsShort}
                   searchError={searchError}
-                  searchButtonClick={(e) =>
-                    searchButtonClick(e.preventDefault())
-                  }
-                  emptyInputError={emptyInputError}
-                  inputValue={inputValue}
-                  setInputValue={setInputValue}
-                  onCardSave={handleLikeClick}
+                  inputValue={beatFilmsInputValue}
+                  setInputValue={setBeatFilmsInputValue}
                   savedMovies={savedMovies}
+                  onCardSave={handleLikeClick}
                 />
               }
             />
@@ -211,13 +199,20 @@ function App() {
               path='saved-movies'
               element={
                 <SavedMovies
-                  movies={savedMovies}
+                  movies={filtredMovies(
+                    savedMovies,
+                    savedMoviesSearchQuery,
+                    savedMoviesIsShort
+                  )}
                   formatTime={formatTime}
                   windowSize={windowSize}
                   pathname={pathname}
+                  setSearchQuery={setSavedMoviesSearchQuery}
+                  isShort={savedMoviesIsShort}
+                  setIsShort={setSavedMoviesIsShort}
+                  inputValue={savedMoviesInputValue}
+                  setInputValue={setSavedMoviesInutValue}
                   onCardDelete={handleDeleteClick}
-                  inputValue={inputValue}
-                  setInputValue={setInputValue}
                 />
               }
             />

@@ -7,18 +7,17 @@ import Preloader from '../UI/Preloader/Preloader';
 function Movies({
   movies,
   formatTime,
-  beatFilmsSearchQuery,
-  beatFilmsIsShort,
-  setBeatFilmsIsShort,
+  searchQuery,
+  setSearchQuery,
+  isShort,
+  setIsShort,
   isLoading,
   searchError,
   windowSize,
-  searchButtonClick,
-  emptyInputError,
   inputValue,
   setInputValue,
   onCardSave,
-  savedMovies
+  savedMovies,
 }) {
   const [defaultMoviesCards, setDefaultMoviesCards] = useState(0);
 
@@ -36,10 +35,10 @@ function Movies({
   // переключателя, чтобы происходил сброс значения defaultMoviesCards
   // после нового запроса.
   useEffect(() => {
-    if (beatFilmsSearchQuery.length || beatFilmsIsShort) {
+    if (searchQuery.length || isShort) {
       moviesCards();
     }
-  }, [beatFilmsSearchQuery, beatFilmsIsShort, moviesCards]);
+  }, [searchQuery, isShort, moviesCards]);
 
   // Логика нажатия на кнопку "ещё".
   const showMoreMovies = () => {
@@ -62,14 +61,20 @@ function Movies({
     }
   }, [movies, defaultMoviesCards]);
 
+  // Записываю данные инпута в поисковый запрос
+  const handleSearchButtonClick = useCallback(
+    (input) => {
+      setSearchQuery(input);
+    },
+    [setSearchQuery]
+  );
+
   return (
     <main className='movies'>
       <SearchForm
-        beatFilmsSearchQuery={beatFilmsSearchQuery}
-        beatFilmsIsShort={beatFilmsIsShort}
-        setBeatFilmsIsShort={setBeatFilmsIsShort}
-        searchButtonClick={searchButtonClick}
-        emptyInputError={emptyInputError}
+        isShort={isShort}
+        setIsShort={setIsShort}
+        onSearch={handleSearchButtonClick}
         inputValue={inputValue}
         setInputValue={setInputValue}
       />

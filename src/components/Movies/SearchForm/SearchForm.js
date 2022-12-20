@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './SearchForm.css';
 
 function SearchForm({
-  beatFilmsIsShort,
-  setBeatFilmsIsShort,
-  searchButtonClick,
-  emptyInputError,
+  isShort,
+  setIsShort,
+  onSearch,
   inputValue,
   setInputValue,
 }) {
+  const [emptyInputError, setEmptyInputError] = useState(false);
+
+  // Двустороннее связывание инпута
+  const handleSearchInput = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  // Переключение чекбокса
+  const handleCheckbox = () => {
+    setIsShort(!isShort);
+  };
+
+  // Обработка клика по кнопке поиска
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (!inputValue) {
+      setEmptyInputError(true);
+    } else {
+      setEmptyInputError(false);
+      onSearch(inputValue);
+    }
+  };
+
   return (
     <form className='search-form'>
       <fieldset className='search-form__fieldset'>
@@ -21,7 +43,7 @@ function SearchForm({
             }
             type='text'
             placeholder='Фильм'
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={handleSearchInput}
             value={inputValue}
             required
           />
@@ -34,7 +56,7 @@ function SearchForm({
           )}
           <button
             className='search-form__button button'
-            onClick={searchButtonClick}
+            onClick={handleSearch}
           ></button>
         </div>
         <div className='search-form__short-movies-switch'>
@@ -42,8 +64,8 @@ function SearchForm({
             <input
               className='search-form__checkbox'
               type='checkbox'
-              checked={beatFilmsIsShort}
-              onChange={setBeatFilmsIsShort}
+              checked={isShort}
+              onChange={handleCheckbox}
             />
             <span className='search-form__slider search-form__slider_round'></span>
           </label>
