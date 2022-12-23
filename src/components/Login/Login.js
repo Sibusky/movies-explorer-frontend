@@ -4,7 +4,7 @@ import './Login.css';
 import { Link } from 'react-router-dom';
 
 
-export default function Login({user}) {
+export default function Login({ handleLogin, isLoggedIn }) {
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -13,8 +13,8 @@ export default function Login({user}) {
     // Обработчик формы
     function handleSubmit(e) {
       e.preventDefault();
-      // const { email, password } = values;
-      // handleRegister({ email, password });
+      const { email, password } = values;
+      handleLogin({ email, password });
     }
 
   return (

@@ -59,7 +59,13 @@ export default function MenuModal({ isMenuActvite, setIsMenuActive }) {
               </NavLink>
             </li>
             <li className='menu__navigator-list-item'>
-              <NavLink to='/profile' className='menu__account-btn-link'>
+              <NavLink 
+              to='/profile' 
+              className='menu__account-btn-link'
+              onClick={() => {
+                setIsMenuActive(false);
+              }}
+              >
                 <div className='menu__account-btn button'></div>
               </NavLink>
             </li>

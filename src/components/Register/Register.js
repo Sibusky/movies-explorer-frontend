@@ -3,7 +3,7 @@ import Logo from '../Logo/Logo';
 import './Register.css';
 import { Link } from 'react-router-dom';
 
-export default function Register({ user }) {
+export default function Register({ handleRegister }) {
   // Объявляю переменные состояния через хук useState
   const [values, setValues] = useState({
     name: '',
@@ -11,7 +11,7 @@ export default function Register({ user }) {
     password: '',
   });
 
-  // // Универсальный обработчик полей (пока что не работает)
+  // // Универсальный обработчик полей
   // function handleChange(e) {
   //   const { name, value } = e.target;
   //   setValues((prev) => ({
@@ -23,8 +23,8 @@ export default function Register({ user }) {
   // Обработчик формы
   function handleSubmit(e) {
     e.preventDefault();
-    // const { email, password } = values;
-    // handleRegister({ email, password });
+    const { name, email, password } = values;
+    handleRegister({ name, email, password });
   }
 
   return (
@@ -50,7 +50,9 @@ export default function Register({ user }) {
                   type='text'
                   placeholder=''
                   name='user-name'
-                  onChange={e => setValues({...values, name: e.target.value})}
+                  onChange={(e) =>
+                    setValues({ ...values, name: e.target.value })
+                  }
                   value={values.name}
                   required
                 />
@@ -72,7 +74,9 @@ export default function Register({ user }) {
                   type='email'
                   placeholder=''
                   name='user-email'
-                  onChange={e => setValues({...values, email: e.target.value})}
+                  onChange={(e) =>
+                    setValues({ ...values, email: e.target.value })
+                  }
                   value={values.email}
                   required
                 />
@@ -94,7 +98,9 @@ export default function Register({ user }) {
                   type='password'
                   placeholder=''
                   name='password'
-                  onChange={e => setValues({...values, password: e.target.value})}
+                  onChange={(e) =>
+                    setValues({ ...values, password: e.target.value })
+                  }
                   value={values.password}
                   required
                 />

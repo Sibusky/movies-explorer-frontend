@@ -1,6 +1,15 @@
 import './App.css';
 import React, { useEffect, useState, useCallback } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  redirect,
+} from 'react-router-dom';
+import { CurrentUserContext } from '../../context/CurrentUserContext';
+import { auth } from '../../utils/Auth';
+import RequireAuth from '../../utils/RequireAuth';
 import debounce from 'lodash.debounce';
 import Layout from '../Layout/Layout';
 import Movies from '../Movies/Movies';
@@ -35,7 +44,16 @@ function App() {
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [isMenuActvite, setIsMenuActive] = useState(false);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [userData, setUserData] = useState({
+    _id: '',
+    name: '',
+    email: '',
+  });
+
   let { pathname } = useLocation();
+  const history = useNavigate();
 
   // Отслеживаю ширину окна
   const handleResize = debounce(() => {
@@ -157,73 +175,193 @@ function App() {
     );
   }, []);
 
+  // Функция проверки токена
+  const handleCheckToken = () => {
+    if (localStorage.getItem('jwt')) {
+      let jwt = localStorage.getItem('jwt');
+      auth
+        .getCurrentUser(jwt)
+        .then((res) => {
+          // console.log(res, 'res of getCurrentUser')
+          const { _id, name, email } = res;
+          setIsLoggedIn(true);
+          setUserData({ _id, name, email });
+          // console.log(userData, 'userData from handlechecktoken');
+        })
+        .catch((err) => {
+          // setIsLoggedIn(false);
+          console.log(`Ошибка: ${err}`);
+        });
+    }
+  };
+
+  // Проверяю выполнял ли пользователь вход ранее
+  useEffect(() => {
+    handleCheckToken();
+  }, []);
+
+  // Получаю данные пользователя
+  useEffect(() => {
+    if (isLoggedIn) {
+      mainApi
+        .getProfile()
+        .then((userData) => {
+          setCurrentUser({
+            name: userData.name,
+            email: userData.email,
+            id: userData._id,
+          });
+          history('/movies');
+        })
+        .catch((err) => console.log(`Ошибка: ${err}`));
+    }
+  }, [isLoggedIn]);
+
+  // Функция регистрации пользователя
+  function handleRegister({ name, email, password }) {
+    auth
+      .register(name, email, password)
+      .then((res) => {
+        // console.log(res, 'res registration');
+        // setCurrentUser(res);
+        handleLogin({ email, password });
+
+        // setIsLoggedIn(true);
+        // history('/movies');
+      })
+      .catch((err) => {
+        console.log(`Ошибка...: ${err}`);
+        // setIsInfoTooltipMessage({
+        //   image: registrationFailImg,
+        //   caption: `Что-то пошло не так! Попробуйте ещё раз.`,
+        // });
+      });
+    // .finally(() => {
+    //   setIsInfoTooltipOpen(true);
+    // });
+  }
+
+  // Функция входа на сайт
+  function handleLogin({ email, password }) {
+    auth
+      .authorize(email, password)
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem('jwt', res.token);
+          handleCheckToken();
+        }
+      })
+      .catch((err) => {
+        console.log(`Ошибка...: ${err}`);
+      });
+  }
+
+  // Функция выхода пользователя
+  function handleLogOut() {
+    localStorage.removeItem('jwt');
+    setIsLoggedIn(false);
+    setUserData({
+      _id: '',
+      name: '',
+      email: '',
+    });
+    history('/');
+  }
+
   return (
-    <div className='App'>
-      <Routes>
-        <Route path='/'>
-          <Route
-            element={
-              <Layout
-                isMenuActvite={isMenuActvite}
-                setIsMenuActive={setIsMenuActive}
-                windowSize={windowSize}
+    <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <div className='App'>
+        <Routes>
+          <Route path='/'>
+            <Route
+              element={
+                <Layout
+                  isMenuActvite={isMenuActvite}
+                  setIsMenuActive={setIsMenuActive}
+                  windowSize={windowSize}
+                  isLoggedIn={isLoggedIn}
+                />
+              }
+            >
+              <Route index element={<Main />} />
+
+              <Route
+                path='movies'
+                element={
+                  <RequireAuth isLoggedIn={isLoggedIn}>
+                    <Movies
+                      movies={filtredMovies(
+                        beatFilmsMovies,
+                        beatFilmsSearchQuery,
+                        beatFilmsIsShort
+                      )}
+                      formatTime={formatTime}
+                      windowSize={windowSize}
+                      isLoading={isLoadingBeatFilms}
+                      searchQuery={beatFilmsSearchQuery}
+                      setSearchQuery={setBeatFilmsSearchQuery}
+                      isShort={beatFilmsIsShort}
+                      setIsShort={setBeatFilmsIsShort}
+                      searchError={searchError}
+                      inputValue={beatFilmsInputValue}
+                      setInputValue={setBeatFilmsInputValue}
+                      savedMovies={savedMovies}
+                      onCardSave={handleLikeClick}
+                    />
+                  </RequireAuth>
+                }
               />
-            }
-          >
-            <Route index element={<Main />} />
+              <Route
+                path='saved-movies'
+                element={
+                  <RequireAuth isLoggedIn={isLoggedIn}>
+                    <SavedMovies
+                      movies={filtredMovies(
+                        savedMovies,
+                        savedMoviesSearchQuery,
+                        savedMoviesIsShort
+                      )}
+                      formatTime={formatTime}
+                      windowSize={windowSize}
+                      pathname={pathname}
+                      setSearchQuery={setSavedMoviesSearchQuery}
+                      isShort={savedMoviesIsShort}
+                      setIsShort={setSavedMoviesIsShort}
+                      inputValue={savedMoviesInputValue}
+                      setInputValue={setSavedMoviesInutValue}
+                      onCardDelete={handleDeleteClick}
+                    />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path='profile'
+                element={
+                  <RequireAuth isLoggedIn={isLoggedIn}>
+                    <Profile
+                      userData={userData}
+                      currentUser={currentUser}
+                      handleLogOut={handleLogOut}
+                    />
+                  </RequireAuth>
+                }
+              />
+            </Route>
             <Route
-              path='movies'
+              path='signin'
               element={
-                <Movies
-                  movies={filtredMovies(
-                    beatFilmsMovies,
-                    beatFilmsSearchQuery,
-                    beatFilmsIsShort
-                  )}
-                  formatTime={formatTime}
-                  windowSize={windowSize}
-                  isLoading={isLoadingBeatFilms}
-                  searchQuery={beatFilmsSearchQuery}
-                  setSearchQuery={setBeatFilmsSearchQuery}
-                  isShort={beatFilmsIsShort}
-                  setIsShort={setBeatFilmsIsShort}
-                  searchError={searchError}
-                  inputValue={beatFilmsInputValue}
-                  setInputValue={setBeatFilmsInputValue}
-                  savedMovies={savedMovies}
-                  onCardSave={handleLikeClick}
-                />
+                <Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />
               }
             />
             <Route
-              path='saved-movies'
-              element={
-                <SavedMovies
-                  movies={filtredMovies(
-                    savedMovies,
-                    savedMoviesSearchQuery,
-                    savedMoviesIsShort
-                  )}
-                  formatTime={formatTime}
-                  windowSize={windowSize}
-                  pathname={pathname}
-                  setSearchQuery={setSavedMoviesSearchQuery}
-                  isShort={savedMoviesIsShort}
-                  setIsShort={setSavedMoviesIsShort}
-                  inputValue={savedMoviesInputValue}
-                  setInputValue={setSavedMoviesInutValue}
-                  onCardDelete={handleDeleteClick}
-                />
-              }
+              path='signup'
+              element={<Register handleRegister={handleRegister} />}
             />
-            <Route path='profile' element={<Profile />} />
+            <Route path='*' element={<PageNotFound />} />
           </Route>
-          <Route path='signin' element={<Login />} />
-          <Route path='signup' element={<Register />} />
-          <Route path='*' element={<PageNotFound />} />
-        </Route>
-      </Routes>
-    </div>
+        </Routes>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
