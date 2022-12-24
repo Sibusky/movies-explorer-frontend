@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import Logo from '../Logo/Logo';
 import './Login.css';
-import { Link } from 'react-router-dom';
-
+import { Link, Navigate, useLocation } from 'react-router-dom';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 export default function Login({ handleLogin, isLoggedIn }) {
-  const [values, setValues] = useState({
-    email: '',
-    password: '',
-  });
+  const [values, errors, isValid, handleChange, resetForm] =
+    useFormWithValidation();
 
-    // Обработчик формы
-    function handleSubmit(e) {
-      e.preventDefault();
-      const { email, password } = values;
-      handleLogin({ email, password });
-    }
+  let location = useLocation();
+
+  // Обработчик формы
+  function handleSubmit(e) {
+    e.preventDefault();
+    const { email, password } = values;
+    handleLogin({ email, password });
+    resetForm();
+  }
+
+  if (isLoggedIn) {
+    return <Navigate to='/movies' state={{ from: location }} replace />;
+  }
 
   return (
     <main className='login'>
@@ -28,23 +33,31 @@ export default function Login({ handleLogin, isLoggedIn }) {
           <fieldset className='login__form-fieldset'>
             <ul className='login__input-list'>
               <li className='login__input-item'>
-                <label className='login__input-label' htmlFor='login__input-email'>
+                <label
+                  className='login__input-label'
+                  htmlFor='login__input-email'
+                >
                   E-mail
                 </label>
                 <input
                   className='login__input'
                   id='login__input-email'
-                  type='text'
+                  type='email'
                   placeholder=''
-                  name='user-email'
-                  onChange={e => setValues({...values, email: e.target.value})}
-                  value={values.email}
+                  name='email'
+                  onChange={handleChange}
+                  value={values.email ? values.email : ''}
                   required
                 />
-                <span id='error-login-email' className='login__error'></span>
+                <span id='error-login-email' className='login__error'>
+                  {errors.email}
+                </span>
               </li>
               <li className='login__input-item'>
-                <label className='login__input-label' htmlFor='login__input-password'>
+                <label
+                  className='login__input-label'
+                  htmlFor='login__input-password'
+                >
                   Пароль
                 </label>
                 <input
@@ -52,16 +65,27 @@ export default function Login({ handleLogin, isLoggedIn }) {
                   id='login__input-password'
                   type='password'
                   placeholder=''
-                  name='user-password'
-                  onChange={e => setValues({...values, password: e.target.value})}
-                  value={values.password}
+                  name='password'
+                  minLength='8'
+                  onChange={handleChange}
+                  value={values.password ? values.password : ''}
                   required
                 />
-                <span id='error-login-password' className='login__error'></span>
+                <span id='error-login-password' className='login__error'>
+                  {errors.password}
+                </span>
               </li>
             </ul>
           </fieldset>
-          <button className='login__submit-btn button' type='submit'>
+          <button
+            disabled={isValid ? false : true}
+            className={
+              isValid
+                ? 'login__submit-btn button'
+                : 'login__submit-btn login__submit-btn_disabled'
+            }
+            type='submit'
+          >
             Войти
           </button>
         </form>

@@ -53,7 +53,7 @@ function App() {
   });
 
   let { pathname } = useLocation();
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   // Отслеживаю ширину окна
   const handleResize = debounce(() => {
@@ -74,6 +74,8 @@ function App() {
     const hour = Math.floor(minutes / 60);
     return hour ? `${hour}ч ${min}м` : `${min}м`;
   };
+
+  // console.log(savedMovies, 'savedMovies')
 
   // Обработчик клика лайка
   const handleLikeClick = (movie) => {
@@ -189,7 +191,7 @@ function App() {
           // console.log(userData, 'userData from handlechecktoken');
         })
         .catch((err) => {
-          // setIsLoggedIn(false);
+          setIsLoggedIn(false);
           console.log(`Ошибка: ${err}`);
         });
     }
@@ -201,21 +203,21 @@ function App() {
   }, []);
 
   // Получаю данные пользователя
-  useEffect(() => {
-    if (isLoggedIn) {
-      mainApi
-        .getProfile()
-        .then((userData) => {
-          setCurrentUser({
-            name: userData.name,
-            email: userData.email,
-            id: userData._id,
-          });
-          history('/movies');
-        })
-        .catch((err) => console.log(`Ошибка: ${err}`));
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     mainApi
+  //       .getProfile()
+  //       .then((userData) => {
+  //         setCurrentUser({
+  //           name: userData.name,
+  //           email: userData.email,
+  //           id: userData._id,
+  //         });
+  //         // history('/movies');
+  //       })
+  //       .catch((err) => console.log(`Ошибка: ${err}`));
+  //   }
+  // }, [isLoggedIn]);
 
   // Функция регистрации пользователя
   function handleRegister({ name, email, password }) {
@@ -249,6 +251,7 @@ function App() {
         if (res.token) {
           localStorage.setItem('jwt', res.token);
           handleCheckToken();
+          // history('/movies');
         }
       })
       .catch((err) => {
@@ -259,13 +262,16 @@ function App() {
   // Функция выхода пользователя
   function handleLogOut() {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('beatFilmsMovies');
+    localStorage.removeItem('beatFilmsSearchQuery');
+    localStorage.removeItem('beatFilmsIsShort');
     setIsLoggedIn(false);
     setUserData({
       _id: '',
       name: '',
       email: '',
     });
-    history('/');
+    navigate('/');
   }
 
   return (
@@ -355,7 +361,7 @@ function App() {
             />
             <Route
               path='signup'
-              element={<Register handleRegister={handleRegister} />}
+              element={<Register handleRegister={handleRegister} isLoggedIn={isLoggedIn}/>}
             />
             <Route path='*' element={<PageNotFound />} />
           </Route>

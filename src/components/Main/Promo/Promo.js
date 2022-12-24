@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Logo from '../../Logo/Logo';
+// import { Link } from 'react-router-dom';
+// import Logo from '../../Logo/Logo';
 import './Promo.css';
 import WebEarth from '../../../images/landing-logo.svg';
 
@@ -8,7 +8,7 @@ export default function Promo({ scrollHendler }) {
 
   return (
     <section className='promo'>
-      <div className='promo__top'>
+      {/* <div className='promo__top'>
         <Logo />
         <div className='promo__auth-buttons'>
           <Link to='/signup' className='promo__auth-signup link'>
@@ -18,7 +18,7 @@ export default function Promo({ scrollHendler }) {
             Войти
           </Link>
         </div>
-      </div>
+      </div> */}
       <div className='promo__container'>
         <div className='promo__container-text'>
           <h1 className='promo__container-title'>

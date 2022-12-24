@@ -141,6 +141,10 @@
     margin: 116px 0 0 0;
     padding: 0;
   }
+
+  .login__submit-btn_disabled {
+    background-color: #a0a0a0;
+  }
   
   .login__signin {
     font-family: 'Inter', Arial, sans-serif;

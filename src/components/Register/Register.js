@@ -1,30 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../Logo/Logo';
 import './Register.css';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-export default function Register({ handleRegister }) {
-  // Объявляю переменные состояния через хук useState
-  const [values, setValues] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
+export default function Register({ handleRegister, isLoggedIn }) {
+  const [values, errors, isValid, handleChange, resetForm] =
+    useFormWithValidation();
 
-  // // Универсальный обработчик полей
-  // function handleChange(e) {
-  //   const { name, value } = e.target;
-  //   setValues((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // }
+  let location = useLocation();
 
   // Обработчик формы
   function handleSubmit(e) {
     e.preventDefault();
     const { name, email, password } = values;
     handleRegister({ name, email, password });
+    resetForm();
+  }
+
+  if (isLoggedIn) {
+    return <Navigate to='/movies' state={{ from: location }} replace />;
   }
 
   return (
@@ -48,18 +43,17 @@ export default function Register({ handleRegister }) {
                   className='register__input'
                   id='register__input-name'
                   type='text'
-                  placeholder=''
-                  name='user-name'
-                  onChange={(e) =>
-                    setValues({ ...values, name: e.target.value })
-                  }
-                  value={values.name}
                   required
+                  minLength='2'
+                  maxLength='30'
+                  placeholder=''
+                  name='name'
+                  onChange={handleChange}
+                  value={values.name ? values.name : ''}
                 />
-                <span
-                  id='error-register-name'
-                  className='register__error'
-                ></span>
+                <span id='error-register-name' className='register__error'>
+                  {errors.name}
+                </span>
               </li>
               <li className='register__input-item'>
                 <label
@@ -73,17 +67,14 @@ export default function Register({ handleRegister }) {
                   id='register__input-email'
                   type='email'
                   placeholder=''
-                  name='user-email'
-                  onChange={(e) =>
-                    setValues({ ...values, email: e.target.value })
-                  }
-                  value={values.email}
+                  name='email'
+                  onChange={handleChange}
+                  value={values.email ? values.email : ''}
                   required
                 />
-                <span
-                  id='error-register-name'
-                  className='register__error'
-                ></span>
+                <span id='error-register-name' className='register__error'>
+                  {errors.email}
+                </span>
               </li>
               <li className='register__input-item'>
                 <label
@@ -96,21 +87,28 @@ export default function Register({ handleRegister }) {
                   className='register__input'
                   id='register__input-password'
                   type='password'
+                  required
+                  minLength='8'
                   placeholder=''
                   name='password'
-                  onChange={(e) =>
-                    setValues({ ...values, password: e.target.value })
-                  }
-                  value={values.password}
-                  required
+                  onChange={handleChange}
+                  value={values.password ? values.password : ''}
                 />
                 <span id='error-register-password' className='register__error'>
-                  Что-то пошло не так...
+                  {errors.password}
                 </span>
               </li>
             </ul>
           </fieldset>
-          <button className='register__submit-btn button' type='submit'>
+          <button
+            disabled={isValid ? false : true}
+            className={
+              isValid
+                ? 'register__submit-btn button'
+                : 'register__submit-btn register__submit-btn_disabled'
+            }
+            type='submit'
+          >
             Зарегистрироваться
           </button>
         </form>

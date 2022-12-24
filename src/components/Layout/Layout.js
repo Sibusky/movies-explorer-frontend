@@ -12,13 +12,12 @@ export default function Layout({
 }) {
   return (
     <div className='layout'>
-      {isLoggedIn && (
-        <Header
-          isMenuActvite={isMenuActvite}
-          setIsMenuActive={setIsMenuActive}
-          windowSize={windowSize}
-        />
-      )}
+      <Header
+        isMenuActvite={isMenuActvite}
+        setIsMenuActive={setIsMenuActive}
+        windowSize={windowSize}
+        isLoggedIn={isLoggedIn}
+      />
       <Outlet />
       <Footer />
     </div>

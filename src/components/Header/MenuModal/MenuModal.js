@@ -19,11 +19,14 @@ export default function MenuModal({ isMenuActvite, setIsMenuActive }) {
             <li className='menu__navigator-list-item'>
               <NavLink
                 to='/'
-                className={({ isActive }) => 
-                isActive
+                className={({ isActive }) =>
+                  isActive
                     ? 'menu__navigator-link menu__navigator-link_active link'
                     : 'menu__navigator-link link'
                 }
+                onClick={() => {
+                  setIsMenuActive(false);
+                }}
               >
                 Главная
               </NavLink>
@@ -32,7 +35,7 @@ export default function MenuModal({ isMenuActvite, setIsMenuActive }) {
               <NavLink
                 to='/movies'
                 className={({ isActive }) =>
-                isActive 
+                  isActive
                     ? 'menu__navigator-link menu__navigator-link_active link'
                     : 'menu__navigator-link link'
                 }
@@ -47,7 +50,7 @@ export default function MenuModal({ isMenuActvite, setIsMenuActive }) {
               <NavLink
                 to='/saved-movies'
                 className={({ isActive }) =>
-                isActive
+                  isActive
                     ? 'menu__navigator-link menu__navigator-link_active link'
                     : 'menu__navigator-link link'
                 }
@@ -59,12 +62,12 @@ export default function MenuModal({ isMenuActvite, setIsMenuActive }) {
               </NavLink>
             </li>
             <li className='menu__navigator-list-item'>
-              <NavLink 
-              to='/profile' 
-              className='menu__account-btn-link'
-              onClick={() => {
-                setIsMenuActive(false);
-              }}
+              <NavLink
+                to='/profile'
+                className='menu__account-btn-link'
+                onClick={() => {
+                  setIsMenuActive(false);
+                }}
               >
                 <div className='menu__account-btn button'></div>
               </NavLink>
