@@ -1,12 +1,6 @@
 import './App.css';
 import React, { useEffect, useState, useCallback } from 'react';
-import {
-  Routes,
-  Route,
-  useLocation,
-  useNavigate,
-  redirect,
-} from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import { auth } from '../../utils/Auth';
 import RequireAuth from '../../utils/RequireAuth';
@@ -53,7 +47,6 @@ function App() {
   });
 
   let { pathname } = useLocation();
-  const navigate = useNavigate();
 
   // Отслеживаю ширину окна
   const handleResize = debounce(() => {
@@ -74,8 +67,6 @@ function App() {
     const hour = Math.floor(minutes / 60);
     return hour ? `${hour}ч ${min}м` : `${min}м`;
   };
-
-  // console.log(savedMovies, 'savedMovies')
 
   // Обработчик клика лайка
   const handleLikeClick = (movie) => {
@@ -127,17 +118,25 @@ function App() {
 
   // Получаю сохранённые фильмы
   useEffect(() => {
-    mainApi
-      .getSavedMovies()
-      .then((movies) => setSavedMovies(movies.reverse()))
-      .catch((err) => setSearchError(err));
-  }, []);
+    if (isLoggedIn) {
+      mainApi
+        .getSavedMovies()
+        .then((movies) => setSavedMovies(movies.reverse()))
+        .catch((err) => setSearchError(err));
+    }
+  }, [isLoggedIn]);
 
   // Сохраняю данные запроса и чекбокса в localStorage
   useEffect(() => {
-    localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
-    localStorage.setItem('beatFilmsIsShort', JSON.stringify(beatFilmsIsShort));
-  }, [beatFilmsMovies, beatFilmsSearchQuery, beatFilmsIsShort]);
+    if (isLoggedIn) {
+      localStorage.setItem('beatFilmsSearchQuery', beatFilmsSearchQuery);
+      localStorage.setItem(
+        'beatFilmsIsShort',
+        JSON.stringify(beatFilmsIsShort)
+      );
+    }
+     
+  }, [isLoggedIn, beatFilmsSearchQuery, beatFilmsIsShort]);
 
   // Загружаю фильмы с сервера BeatFilms
   useEffect(() => {
@@ -265,13 +264,20 @@ function App() {
     localStorage.removeItem('beatFilmsMovies');
     localStorage.removeItem('beatFilmsSearchQuery');
     localStorage.removeItem('beatFilmsIsShort');
+    setBeatFilmsMovies(null)
+    setBeatFilmsSearchQuery('');
+    setBeatFilmsIsShort(false);
+    setBeatFilmsInputValue('');
+    setSavedMovies(null);
+    setSavedMoviesSearchQuery('');
+    setSavedMoviesIsShort(false);
+    setSavedMoviesInutValue('');
     setIsLoggedIn(false);
     setUserData({
       _id: '',
       name: '',
       email: '',
     });
-    navigate('/');
   }
 
   return (
@@ -348,6 +354,7 @@ function App() {
                       userData={userData}
                       currentUser={currentUser}
                       handleLogOut={handleLogOut}
+                      isLoggedIn={isLoggedIn}
                     />
                   </RequireAuth>
                 }
@@ -361,7 +368,12 @@ function App() {
             />
             <Route
               path='signup'
-              element={<Register handleRegister={handleRegister} isLoggedIn={isLoggedIn}/>}
+              element={
+                <Register
+                  handleRegister={handleRegister}
+                  isLoggedIn={isLoggedIn}
+                />
+              }
             />
             <Route path='*' element={<PageNotFound />} />
           </Route>

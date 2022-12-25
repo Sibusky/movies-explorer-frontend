@@ -1,10 +1,19 @@
 import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import './Profile.css';
 
 export default function Profile({
   userData,
   handleLogOut,
+  isLoggedIn,
 }) {
+
+  let location = useLocation();
+
+  if (!isLoggedIn) {
+    return <Navigate to='/' state={{ from: location }} replace />;
+  }
+
   return (
     <main className='profile'>
       <h2 className='profile__greetings'>Привет, {userData.name}!</h2>
