@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Logo from '../Logo/Logo';
 import './Register.css';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-export default function Register({ handleRegister, isLoggedIn }) {
+export default function Register({ handleRegister, isLoggedIn, isFetching }) {
   const [values, errors, isValid, handleChange, resetForm] =
     useFormWithValidation();
 
@@ -40,13 +40,18 @@ export default function Register({ handleRegister, isLoggedIn }) {
                   Имя
                 </label>
                 <input
-                  className='register__input'
+                  className={
+                    errors.name
+                      ? 'register__input register__input-error'
+                      : 'register__input'
+                  }
                   id='register__input-name'
                   type='text'
                   required
                   minLength='2'
                   maxLength='30'
                   placeholder=''
+                  pattern='^(?!\s)[A-Za-zА-Яа-я\-\s]+$'
                   name='name'
                   onChange={handleChange}
                   value={values.name ? values.name : ''}
@@ -63,7 +68,11 @@ export default function Register({ handleRegister, isLoggedIn }) {
                   E-mail
                 </label>
                 <input
-                  className='register__input'
+                  className={
+                    errors.email
+                      ? 'register__input register__input-error'
+                      : 'register__input'
+                  }
                   id='register__input-email'
                   type='email'
                   placeholder=''
@@ -84,7 +93,11 @@ export default function Register({ handleRegister, isLoggedIn }) {
                   Пароль
                 </label>
                 <input
-                  className='register__input'
+                   className={
+                    errors.password
+                      ? 'register__input register__input-error'
+                      : 'register__input'
+                  }
                   id='register__input-password'
                   type='password'
                   required
@@ -109,7 +122,8 @@ export default function Register({ handleRegister, isLoggedIn }) {
             }
             type='submit'
           >
-            Зарегистрироваться
+            {' '}
+            {isFetching ? 'Загрузка...' : 'Зарегистрироваться'}
           </button>
         </form>
         <p className='register__signin'>

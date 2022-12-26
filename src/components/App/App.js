@@ -13,8 +13,11 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Main from '../Main/Main';
+import Tooltip from '../UI/Tooltip/Tooltip';
 import { moviesApi } from '../../utils/MoviesApi.js';
 import { mainApi } from '../../utils/MainApi';
+import fetchIsFail from '../../images/fetch-is-fail.svg';
+import fetchIsOk from '../../images/fetch-is-ok.svg';
 
 function App() {
   const [beatFilmsMovies, setBeatFilmsMovies] = useState(null);
@@ -34,16 +37,16 @@ function App() {
   const [savedMoviesInputValue, setSavedMoviesInutValue] = useState('');
 
   const [isLoadingBeatFilms, setIsLoadingBeatFilms] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const [searchError, setSearchError] = useState('');
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [isMenuActvite, setIsMenuActive] = useState(false);
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [userData, setUserData] = useState({
-    _id: '',
-    name: '',
-    email: '',
+  const [isTooltipActive, setIsTooltipActive] = useState(false);
+  const [isInfoTooltipMessage, setIsInfoTooltipMessage] = useState({
+    image: '',
+    caption: '',
   });
 
   let { pathname } = useLocation();
@@ -135,7 +138,6 @@ function App() {
         JSON.stringify(beatFilmsIsShort)
       );
     }
-     
   }, [isLoggedIn, beatFilmsSearchQuery, beatFilmsIsShort]);
 
   // Загружаю фильмы с сервера BeatFilms
@@ -183,11 +185,9 @@ function App() {
       auth
         .getCurrentUser(jwt)
         .then((res) => {
-          // console.log(res, 'res of getCurrentUser')
           const { _id, name, email } = res;
           setIsLoggedIn(true);
-          setUserData({ _id, name, email });
-          // console.log(userData, 'userData from handlechecktoken');
+          setCurrentUser({ _id, name, email });
         })
         .catch((err) => {
           setIsLoggedIn(false);
@@ -201,62 +201,111 @@ function App() {
     handleCheckToken();
   }, []);
 
-  // Получаю данные пользователя
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     mainApi
-  //       .getProfile()
-  //       .then((userData) => {
-  //         setCurrentUser({
-  //           name: userData.name,
-  //           email: userData.email,
-  //           id: userData._id,
-  //         });
-  //         // history('/movies');
-  //       })
-  //       .catch((err) => console.log(`Ошибка: ${err}`));
-  //   }
-  // }, [isLoggedIn]);
-
   // Функция регистрации пользователя
   function handleRegister({ name, email, password }) {
+    setIsFetching(true);
     auth
       .register(name, email, password)
-      .then((res) => {
-        // console.log(res, 'res registration');
-        // setCurrentUser(res);
+      .then(() => {
         handleLogin({ email, password });
-
-        // setIsLoggedIn(true);
-        // history('/movies');
       })
       .catch((err) => {
-        console.log(`Ошибка...: ${err}`);
-        // setIsInfoTooltipMessage({
-        //   image: registrationFailImg,
-        //   caption: `Что-то пошло не так! Попробуйте ещё раз.`,
-        // });
-      });
-    // .finally(() => {
-    //   setIsInfoTooltipOpen(true);
-    // });
+        console.log(`Ошибка: ${err}`);
+        setIsInfoTooltipMessage({
+          image: '',
+          caption: '',
+        });
+        setIsTooltipActive(true);
+        if (err === 409) {
+          setIsInfoTooltipMessage({
+            image: fetchIsFail,
+            caption: 'Пользователь с указанной почтой уже существует',
+          });
+        }
+        if (err === 500) {
+          setIsInfoTooltipMessage({
+            image: fetchIsFail,
+            caption: 'Ошибка сервера, попробуйте ещё раз чуть позже',
+          });
+        }
+      })
+      .finally(() => setIsFetching(false));
   }
 
   // Функция входа на сайт
   function handleLogin({ email, password }) {
+    setIsFetching(true);
     auth
       .authorize(email, password)
       .then((res) => {
         if (res.token) {
           localStorage.setItem('jwt', res.token);
           handleCheckToken();
-          // history('/movies');
         }
       })
       .catch((err) => {
-        console.log(`Ошибка...: ${err}`);
-      });
+        console.log(`Ошибка: ${err}`);
+        setIsInfoTooltipMessage({
+          image: '',
+          caption: '',
+        });
+        setIsTooltipActive(true);
+        if (err === 401) {
+          setIsInfoTooltipMessage({
+            image: fetchIsFail,
+            caption: 'Почта или пароль не верные',
+          });
+        }
+        if (err === 400) {
+          setIsInfoTooltipMessage({
+            image: fetchIsFail,
+            caption: 'Пользователя с такой почтой не существует',
+          });
+        }
+        if (err === 500) {
+          setIsInfoTooltipMessage({
+            image: fetchIsFail,
+            caption: 'Ошибка сервера, попробуйте ещё раз чуть позже',
+          });
+        }
+      })
+      .finally(() => setIsFetching(false));
   }
+
+  // Функция редактирования данных профиля
+  const handleEditProfile = ({ name, email }) => {
+    mainApi
+      .editProfile(name, email)
+      .then((userData) => {
+        setCurrentUser({
+          name: userData.name,
+          email: userData.email,
+        });
+        setIsInfoTooltipMessage({
+          image: '',
+          caption: '',
+        });
+        setIsTooltipActive(true);
+        setIsInfoTooltipMessage({
+          image: fetchIsOk,
+          caption: 'Данные успешно изменены',
+        });
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+        setIsInfoTooltipMessage({
+          image: '',
+          caption: '',
+        });
+        setIsTooltipActive(true);
+        if (err === 409) {
+          setIsInfoTooltipMessage({
+            image: fetchIsFail,
+            caption: 'Пользователь с указанной почтой уже существует',
+          });
+        }
+      });
+  };
 
   // Функция выхода пользователя
   function handleLogOut() {
@@ -264,7 +313,7 @@ function App() {
     localStorage.removeItem('beatFilmsMovies');
     localStorage.removeItem('beatFilmsSearchQuery');
     localStorage.removeItem('beatFilmsIsShort');
-    setBeatFilmsMovies(null)
+    setBeatFilmsMovies(null);
     setBeatFilmsSearchQuery('');
     setBeatFilmsIsShort(false);
     setBeatFilmsInputValue('');
@@ -273,12 +322,35 @@ function App() {
     setSavedMoviesIsShort(false);
     setSavedMoviesInutValue('');
     setIsLoggedIn(false);
-    setUserData({
+    setCurrentUser({
       _id: '',
       name: '',
       email: '',
     });
   }
+
+  // Открытие меню в хедере
+  const handleOpenMenu = () => {
+    setIsMenuActive(true);
+  };
+
+  // Закрытие модальных окон
+  const closeModal = () => {
+    setIsMenuActive(false);
+    setIsTooltipActive(false);
+  };
+
+  // Функция закрытия окон по esc
+  useEffect(() => {
+    function closeByEsc(evt) {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        closeModal();
+      }
+    }
+    document.addEventListener('keydown', closeByEsc);
+    return () => document.removeEventListener('keydown', closeByEsc);
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
@@ -289,7 +361,8 @@ function App() {
               element={
                 <Layout
                   isMenuActvite={isMenuActvite}
-                  setIsMenuActive={setIsMenuActive}
+                  onOpenMenu={handleOpenMenu}
+                  onClose={closeModal}
                   windowSize={windowSize}
                   isLoggedIn={isLoggedIn}
                 />
@@ -351,9 +424,8 @@ function App() {
                 element={
                   <RequireAuth isLoggedIn={isLoggedIn}>
                     <Profile
-                      userData={userData}
-                      currentUser={currentUser}
                       handleLogOut={handleLogOut}
+                      handleEditProfile={handleEditProfile}
                       isLoggedIn={isLoggedIn}
                     />
                   </RequireAuth>
@@ -363,7 +435,11 @@ function App() {
             <Route
               path='signin'
               element={
-                <Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />
+                <Login
+                  handleLogin={handleLogin}
+                  isLoggedIn={isLoggedIn}
+                  isFetching={isFetching}
+                />
               }
             />
             <Route
@@ -372,12 +448,20 @@ function App() {
                 <Register
                   handleRegister={handleRegister}
                   isLoggedIn={isLoggedIn}
+                  isFetching={isFetching}
                 />
               }
             />
             <Route path='*' element={<PageNotFound />} />
           </Route>
         </Routes>
+        <Tooltip
+          isTooltipActive={isTooltipActive}
+          onOpenMenu={handleOpenMenu}
+          onClose={closeModal}
+          caption={isInfoTooltipMessage.caption}
+          image={isInfoTooltipMessage.image}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

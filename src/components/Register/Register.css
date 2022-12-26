@@ -40,6 +40,7 @@
 .register__form {
   width: 100%;
   margin: 44px 0 0 0;
+  padding: 0;
 }
 
 .register__form-fieldset {
@@ -102,6 +103,7 @@
 
 .register__input-error {
   color: #ee3465;
+  border-bottom: 1px solid #ee3465;
 }
 
 .register__input:focus {

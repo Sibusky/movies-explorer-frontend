@@ -102,11 +102,12 @@
   
   .login__input-error {
     color: #ee3465;
-    border-bottom: 1px solid #3456f3;
+    border-bottom: 1px solid #ee3465;
   }
   
   .login__input:focus {
     outline: none;
+    border-bottom: 1px solid #3456f3;
   }
   
   .login__error {

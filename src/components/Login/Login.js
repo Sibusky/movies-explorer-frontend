@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Logo from '../Logo/Logo';
 import './Login.css';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-export default function Login({ handleLogin, isLoggedIn }) {
+export default function Login({ handleLogin, isLoggedIn, isFetching }) {
   const [values, errors, isValid, handleChange, resetForm] =
     useFormWithValidation();
 
@@ -40,7 +40,11 @@ export default function Login({ handleLogin, isLoggedIn }) {
                   E-mail
                 </label>
                 <input
-                  className='login__input'
+                  className={
+                    errors.email
+                      ? 'login__input login__input-error'
+                      : 'login__input'
+                  }
                   id='login__input-email'
                   type='email'
                   placeholder=''
@@ -61,7 +65,11 @@ export default function Login({ handleLogin, isLoggedIn }) {
                   Пароль
                 </label>
                 <input
-                  className='login__input'
+                  className={
+                    errors.password
+                      ? 'login__input login__input-error'
+                      : 'login__input'
+                  }
                   id='login__input-password'
                   type='password'
                   placeholder=''
@@ -86,7 +94,7 @@ export default function Login({ handleLogin, isLoggedIn }) {
             }
             type='submit'
           >
-            Войти
+            {isFetching ? 'Загрузка...' : 'Войти'}
           </button>
         </form>
         <p className='login__signin'>

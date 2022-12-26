@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import MenuModal from './MenuModal/MenuModal';
@@ -7,7 +7,8 @@ import HeaderNavigation from './HeaderNavigation/HeaderNavigation';
 
 export default function Header({
   isMenuActvite,
-  setIsMenuActive,
+  onOpenMenu,
+  onClose,
   windowSize,
   isLoggedIn,
 }) {
@@ -20,9 +21,7 @@ export default function Header({
       {windowSize <= 780 && (
         <div
           className='header__menu-btn button'
-          onClick={() => {
-            setIsMenuActive(true);
-          }}
+          onClick={onOpenMenu}
         ></div>
       )}
     </div>
@@ -42,7 +41,7 @@ export default function Header({
 
   return (
     <header
-      className={location.pathname != '/' ? 'header' : 'header header_landing'}
+      className={location.pathname !== '/' ? 'header' : 'header header_landing'}
     >
       <div className='header__container'>
         <Logo />
@@ -50,7 +49,7 @@ export default function Header({
       </div>
       <MenuModal
         isMenuActvite={isMenuActvite}
-        setIsMenuActive={setIsMenuActive}
+        onClose={onClose}
       />
     </header>
   );

@@ -1,41 +1,37 @@
+// Проверяю ответ сервера
+function checkResponse(res) {
+  return res.ok
+    ? res.json()
+    : Promise.reject(res.status);
+}
+
 class MainApi {
   constructor({ baseUrl, headers }) {
     this._headers = headers;
     this._baseUrl = baseUrl;
   }
 
-  getProfile() {
+  editProfile(name, email) {
     return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('jwt')}`,
         'Content-Type': 'application/json',
       },
-    }).then((res) => (res.ok ? res.json() : Promise.reject(res.status))); // Если ответ пришёл, получаем .json, если нет, идём в .catch
-  }
-
-  editProfile(name, email) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({
         name,
         email,
-      })
-    })
-      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      }),
+    }).then(checkResponse);
   }
 
   getSavedMovies() {
     return fetch(`${this._baseUrl}/movies`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzE0MzIwODEsImV4cCI6MTY3MjAzNjg4MX0.4yb0X5jnnCDkjR1LnNP2hgK4sTOEAsVLgxfikbNGe8g`,
         'Content-Type': 'application/json',
       },
-    }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
+    }).then(checkResponse);
   }
 
   saveMovie(movie) {
@@ -43,11 +39,10 @@ class MainApi {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzE0MzIwODEsImV4cCI6MTY3MjAzNjg4MX0.4yb0X5jnnCDkjR1LnNP2hgK4sTOEAsVLgxfikbNGe8g`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(movie),
-    }).then((res) => (res.ok ? res.json() : Promise.reject(res)));
+    }).then(checkResponse);
   }
 
   deleteMovie(id) {
@@ -55,11 +50,9 @@ class MainApi {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk0NzllNzA2YmY0MjczZDZjMWFjNDgiLCJpYXQiOjE2NzE0MzIwODEsImV4cCI6MTY3MjAzNjg4MX0.4yb0X5jnnCDkjR1LnNP2hgK4sTOEAsVLgxfikbNGe8g`,
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify(movie),
-    }).then((res) => (res.ok ? res.json() : Promise.reject(res)));
+    }).then(checkResponse);
   }
 }
 

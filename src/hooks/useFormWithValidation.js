@@ -5,9 +5,6 @@ export function useFormWithValidation() {
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
 
-  // Регулярное выражение для валидации имени
-  const regExp = /^(?!\s)[A-Za-zА-Яа-я\-\s]+$/;
-
   const handleChange = (event) => {
     const target = event.target;
     const name = target.name;
@@ -16,14 +13,14 @@ export function useFormWithValidation() {
     setErrors({ ...errors, [name]: target.validationMessage });
     setIsValid(target.closest('form').checkValidity());
 
-    // Валидирую поле "name" на латинские, кириллические символы, пробел и тире
+    // Подставляю свой текст ошибки при валидации имени, чтобы пользователь
+    // понимал что не так
     if (name === 'name') {
-      if (!regExp.test(value)) {
+      if (target.validationMessage === 'Please match the requested format.') {
         setErrors({
           ...errors,
-          name: 'Name must contain olny Latin or Cyrillic characters, spaces or symbol "-" and must not start with',
+          name: 'Name must contain olny Latin or Cyrillic characters, spaces or symbol "-" and must not start with space',
         });
-        return setIsValid(false);
       }
     }
   };
@@ -37,5 +34,5 @@ export function useFormWithValidation() {
     [setValues, setErrors, setIsValid]
   );
 
-  return [values, errors, isValid, handleChange, resetForm];
+  return [values, errors, isValid, handleChange, resetForm, setValues];
 }

@@ -6,7 +6,8 @@ import './Layout.css';
 
 export default function Layout({
   isMenuActvite,
-  setIsMenuActive,
+  onOpenMenu,
+  onClose,
   windowSize,
   isLoggedIn,
 }) {
@@ -14,7 +15,8 @@ export default function Layout({
     <div className='layout'>
       <Header
         isMenuActvite={isMenuActvite}
-        setIsMenuActive={setIsMenuActive}
+        onOpenMenu={onOpenMenu}
+        onClose={onClose}
         windowSize={windowSize}
         isLoggedIn={isLoggedIn}
       />
