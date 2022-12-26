@@ -24,6 +24,9 @@ https://bitfilms.smirnov.nomoredomains.icu/
 ### Figma file link
 https://disk.yandex.ru/d/KI5DcrxvdZ_KfQ
 
+### Pull request link
+https://github.com/Sibusky/movies-explorer-frontend/pull/50
+
 # Movies Explorer. Фронтенд.
 
 ## Фронтенд часть дипломной работы в курсе "Веб-разработчик" от Яндекс.Практикум
@@ -49,3 +52,6 @@ https://bitfilms.smirnov.nomoredomains.icu/
 
 ### Ссылка на файл макета в Figma
 https://disk.yandex.ru/d/KI5DcrxvdZ_KfQ
+
+### Ссылка на пул-реквест
+https://github.com/Sibusky/movies-explorer-frontend/pull/50
