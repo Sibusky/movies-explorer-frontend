@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useEffect, useState, useCallback } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import { auth } from '../../utils/Auth';
 import RequireAuth from '../../utils/RequireAuth';
@@ -41,15 +41,13 @@ function App() {
   const [searchError, setSearchError] = useState('');
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [isMenuActvite, setIsMenuActive] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [currentUser, setCurrentUser] = useState({});
   const [isTooltipActive, setIsTooltipActive] = useState(false);
   const [isInfoTooltipMessage, setIsInfoTooltipMessage] = useState({
     image: '',
     caption: '',
   });
-
-  let { pathname } = useLocation();
 
   // Отслеживаю ширину окна
   const handleResize = debounce(() => {
@@ -182,6 +180,7 @@ function App() {
   const handleCheckToken = () => {
     if (localStorage.getItem('jwt')) {
       let jwt = localStorage.getItem('jwt');
+      setSearchError('');
       auth
         .getCurrentUser(jwt)
         .then((res) => {
@@ -193,6 +192,8 @@ function App() {
           setIsLoggedIn(false);
           console.log(`Ошибка: ${err}`);
         });
+    } else {
+      setIsLoggedIn(false);
     }
   };
 
@@ -202,7 +203,7 @@ function App() {
   }, []);
 
   // Функция регистрации пользователя
-  function handleRegister({ name, email, password }) {
+  const handleRegister = ({ name, email, password }) => {
     setIsFetching(true);
     auth
       .register(name, email, password)
@@ -230,10 +231,10 @@ function App() {
         }
       })
       .finally(() => setIsFetching(false));
-  }
+  };
 
   // Функция входа на сайт
-  function handleLogin({ email, password }) {
+  const handleLogin = ({ email, password }) => {
     setIsFetching(true);
     auth
       .authorize(email, password)
@@ -270,7 +271,7 @@ function App() {
         }
       })
       .finally(() => setIsFetching(false));
-  }
+  };
 
   // Функция редактирования данных профиля
   const handleEditProfile = ({ name, email }) => {
@@ -308,7 +309,7 @@ function App() {
   };
 
   // Функция выхода пользователя
-  function handleLogOut() {
+  const handleLogOut = () => {
     localStorage.removeItem('jwt');
     localStorage.removeItem('beatFilmsMovies');
     localStorage.removeItem('beatFilmsSearchQuery');
@@ -327,7 +328,7 @@ function App() {
       name: '',
       email: '',
     });
-  }
+  };
 
   // Открытие меню в хедере
   const handleOpenMenu = () => {
@@ -342,12 +343,12 @@ function App() {
 
   // Функция закрытия окон по esc
   useEffect(() => {
-    function closeByEsc(evt) {
+    const closeByEsc = (evt) => {
       if (evt.key === 'Escape') {
         evt.preventDefault();
         closeModal();
       }
-    }
+    };
     document.addEventListener('keydown', closeByEsc);
     return () => document.removeEventListener('keydown', closeByEsc);
   }, []);
@@ -408,7 +409,7 @@ function App() {
                       )}
                       formatTime={formatTime}
                       windowSize={windowSize}
-                      pathname={pathname}
+                      // pathname={pathname}
                       setSearchQuery={setSavedMoviesSearchQuery}
                       isShort={savedMoviesIsShort}
                       setIsShort={setSavedMoviesIsShort}

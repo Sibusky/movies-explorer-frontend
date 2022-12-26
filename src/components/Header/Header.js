@@ -12,7 +12,7 @@ export default function Header({
   windowSize,
   isLoggedIn,
 }) {
-  let location = useLocation();
+  let { pathname } = useLocation();
 
   // Разметка header под залогиненное состояние
   const headerIsLoggedInTrue = (
@@ -41,7 +41,7 @@ export default function Header({
 
   return (
     <header
-      className={location.pathname !== '/' ? 'header' : 'header header_landing'}
+      className={pathname !== '/' ? 'header' : 'header header_landing'}
     >
       <div className='header__container'>
         <Logo />

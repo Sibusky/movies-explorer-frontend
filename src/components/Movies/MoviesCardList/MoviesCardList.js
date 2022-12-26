@@ -9,7 +9,7 @@ function MoviesCardList({
   onCardSave,
   onCardDelete,
   savedMovies,
-  pathname,
+  // pathname,
 }) {
   return (
     <section className='movies-cards'>
@@ -26,7 +26,6 @@ function MoviesCardList({
               onCardSave={onCardSave}
               onCardDelete={onCardDelete}
               savedMovies={savedMovies}
-              pathname={pathname}
             />
           ))
         )}

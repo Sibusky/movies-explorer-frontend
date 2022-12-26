@@ -1,14 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import './Profile.css';
 
-export default function Profile({
-  handleLogOut,
-  handleEditProfile,
-  isLoggedIn,
-}) {
+export default function Profile({ handleLogOut, handleEditProfile }) {
   const [values, errors, isValid, handleChange, setValues] =
     useFormWithValidation();
 
@@ -22,8 +17,6 @@ export default function Profile({
     });
   }, [setValues, currentUser.name, currentUser.email]);
 
-  let location = useLocation();
-
   // Обработчик формы
   function handleSubmit(e) {
     e.preventDefault();
@@ -34,10 +27,6 @@ export default function Profile({
   const isButtonAble =
     isValid &&
     (values.name !== currentUser.name || values.email !== currentUser.email);
-
-  if (!isLoggedIn) {
-    return <Navigate to='/' state={{ from: location }} replace />;
-  }
 
   return (
     <main className='profile'>

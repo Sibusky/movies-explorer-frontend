@@ -7,7 +7,6 @@ import './SavedMovies.css';
 export default function SavedMovies({
   movies,
   formatTime,
-  pathname,
   setSearchQuery,
   isShort,
   setIsShort,
@@ -36,7 +35,7 @@ export default function SavedMovies({
         <MoviesCardList
           movies={movies}
           formatTime={formatTime}
-          pathname={pathname}
+          // pathname={pathname}
           onCardDelete={onCardDelete}
         />
       )}

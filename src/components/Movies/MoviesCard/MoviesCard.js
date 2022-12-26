@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 import { moviesApi } from '../../../utils/MoviesApi.js';
 
@@ -8,8 +9,9 @@ function MoviesCard({
   onCardSave,
   onCardDelete,
   savedMovies,
-  pathname,
 }) {
+  let { pathname } = useLocation();
+
   // Проверяю, находится ли фильм в сохранённых,
   // чтобы изменить кнопку лайка
   const isLiked = savedMovies

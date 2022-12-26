@@ -1,8 +1,6 @@
 // Проверяю ответ сервера
 function checkResponse(res) {
-  return res.ok
-    ? res.json()
-    : Promise.reject(res.status);
+  return res.ok ? res.json() : Promise.reject(res.status);
 }
 
 class MainApi {
