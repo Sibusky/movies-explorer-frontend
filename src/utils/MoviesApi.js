@@ -12,7 +12,7 @@ class MoviesApi {
   getMovies() {
     return fetch(`${this._baseUrl}/beatfilm-movies`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        //Authorization: `Bearer ${localStorage.getItem('jwt')}`,
         'Content-Type': 'application/json',
       },
     }).then(checkResponse);
