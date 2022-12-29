@@ -177,7 +177,7 @@ function App() {
   }, []);
 
   // Функция проверки токена
-  const handleCheckToken = () => {
+  const handleCheckToken = useCallback(() => {
     if (localStorage.getItem('jwt')) {
       let jwt = localStorage.getItem('jwt');
       setSearchError('');
@@ -189,18 +189,20 @@ function App() {
           setCurrentUser({ _id, name, email });
         })
         .catch((err) => {
-          setIsLoggedIn(false);
           console.log(`Ошибка: ${err}`);
+          if (err === 401) {
+            handleLogOut();
+          }
         });
     } else {
-      setIsLoggedIn(false);
+      handleLogOut();
     }
-  };
+  }, []);
 
   // Проверяю выполнял ли пользователь вход ранее
   useEffect(() => {
     handleCheckToken();
-  }, []);
+  }, [handleCheckToken]);
 
   // Функция регистрации пользователя
   const handleRegister = ({ name, email, password }) => {
@@ -216,6 +218,7 @@ function App() {
           image: '',
           caption: '',
         });
+        setIsFetching(false);
         setIsTooltipActive(true);
         if (err === 409) {
           setIsInfoTooltipMessage({
@@ -229,8 +232,7 @@ function App() {
             caption: 'Ошибка сервера, попробуйте ещё раз чуть позже',
           });
         }
-      })
-      .finally(() => setIsFetching(false));
+      });
   };
 
   // Функция входа на сайт
@@ -250,6 +252,7 @@ function App() {
           image: '',
           caption: '',
         });
+        setIsFetching(false);
         setIsTooltipActive(true);
         if (err === 401) {
           setIsInfoTooltipMessage({
@@ -269,12 +272,12 @@ function App() {
             caption: 'Ошибка сервера, попробуйте ещё раз чуть позже',
           });
         }
-      })
-      .finally(() => setIsFetching(false));
+      });
   };
 
   // Функция редактирования данных профиля
   const handleEditProfile = ({ name, email }) => {
+    setIsFetching(true);
     mainApi
       .editProfile(name, email)
       .then((userData) => {
@@ -298,6 +301,7 @@ function App() {
           image: '',
           caption: '',
         });
+
         setIsTooltipActive(true);
         if (err === 409) {
           setIsInfoTooltipMessage({
@@ -305,7 +309,8 @@ function App() {
             caption: 'Пользователь с указанной почтой уже существует',
           });
         }
-      });
+      })
+      .finally(() => setIsFetching(false));
   };
 
   // Функция выхода пользователя
@@ -428,6 +433,8 @@ function App() {
                       handleLogOut={handleLogOut}
                       handleEditProfile={handleEditProfile}
                       isLoggedIn={isLoggedIn}
+                      isFetching={isFetching}
+                      setIsFetching={setIsFetching}
                     />
                   </RequireAuth>
                 }

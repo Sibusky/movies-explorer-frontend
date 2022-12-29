@@ -5,17 +5,18 @@ import { Link, Navigate, useLocation } from 'react-router-dom';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 export default function Login({ handleLogin, isLoggedIn, isFetching }) {
-  const [values, errors, isValid, handleChange, resetForm] =
+  const [values, errors, isValid, handleChange] =
     useFormWithValidation();
 
   let location = useLocation();
+
+  console.log(isFetching);
 
   // Обработчик формы
   function handleSubmit(e) {
     e.preventDefault();
     const { email, password } = values;
     handleLogin({ email, password });
-    resetForm();
   }
 
   if (isLoggedIn) {
@@ -45,9 +46,11 @@ export default function Login({ handleLogin, isLoggedIn, isFetching }) {
                       ? 'login__input login__input-error'
                       : 'login__input'
                   }
+                  readOnly={isFetching && true}
                   id='login__input-email'
                   type='email'
                   placeholder=''
+                  pattern='^.+@.+\..+$'
                   name='email'
                   onChange={handleChange}
                   value={values.email ? values.email : ''}
@@ -70,6 +73,7 @@ export default function Login({ handleLogin, isLoggedIn, isFetching }) {
                       ? 'login__input login__input-error'
                       : 'login__input'
                   }
+                  readOnly={isFetching && true}
                   id='login__input-password'
                   type='password'
                   placeholder=''
@@ -86,11 +90,11 @@ export default function Login({ handleLogin, isLoggedIn, isFetching }) {
             </ul>
           </fieldset>
           <button
-            disabled={isValid ? false : true}
+            disabled={!isValid || isFetching ? true : false}
             className={
-              isValid
-                ? 'login__submit-btn button'
-                : 'login__submit-btn login__submit-btn_disabled'
+              !isValid || isFetching
+                ? 'login__submit-btn login__submit-btn_disabled'
+                : 'login__submit-btn button'
             }
             type='submit'
           >

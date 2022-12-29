@@ -5,7 +5,7 @@ import { Link, Navigate, useLocation } from 'react-router-dom';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 export default function Register({ handleRegister, isLoggedIn, isFetching }) {
-  const [values, errors, isValid, handleChange, resetForm] =
+  const [values, errors, isValid, handleChange] =
     useFormWithValidation();
 
   let location = useLocation();
@@ -15,7 +15,6 @@ export default function Register({ handleRegister, isLoggedIn, isFetching }) {
     e.preventDefault();
     const { name, email, password } = values;
     handleRegister({ name, email, password });
-    resetForm();
   }
 
   if (isLoggedIn) {
@@ -45,6 +44,7 @@ export default function Register({ handleRegister, isLoggedIn, isFetching }) {
                       ? 'register__input register__input-error'
                       : 'register__input'
                   }
+                  readOnly={isFetching && true}
                   id='register__input-name'
                   type='text'
                   required
@@ -73,9 +73,11 @@ export default function Register({ handleRegister, isLoggedIn, isFetching }) {
                       ? 'register__input register__input-error'
                       : 'register__input'
                   }
+                  readOnly={isFetching && true}
                   id='register__input-email'
                   type='email'
                   placeholder=''
+                  pattern='^.+@.+\..+$'
                   name='email'
                   onChange={handleChange}
                   value={values.email ? values.email : ''}
@@ -93,11 +95,12 @@ export default function Register({ handleRegister, isLoggedIn, isFetching }) {
                   Пароль
                 </label>
                 <input
-                   className={
+                  className={
                     errors.password
                       ? 'register__input register__input-error'
                       : 'register__input'
                   }
+                  readOnly={isFetching && true}
                   id='register__input-password'
                   type='password'
                   required
@@ -114,11 +117,11 @@ export default function Register({ handleRegister, isLoggedIn, isFetching }) {
             </ul>
           </fieldset>
           <button
-            disabled={isValid ? false : true}
+            disabled={!isValid || isFetching ? true : false}
             className={
-              isValid
-                ? 'register__submit-btn button'
-                : 'register__submit-btn register__submit-btn_disabled'
+              !isValid || isFetching
+                ? 'register__submit-btn register__submit-btn_disabled'
+                : 'register__submit-btn button'
             }
             type='submit'
           >

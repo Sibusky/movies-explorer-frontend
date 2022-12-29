@@ -3,13 +3,23 @@ import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import './Profile.css';
 
-export default function Profile({ handleLogOut, handleEditProfile }) {
+export default function Profile({
+  handleLogOut,
+  handleEditProfile,
+  isFetching,
+  setIsFetching,
+}) {
   const [values, errors, isValid, handleChange, setValues] =
     useFormWithValidation();
+
+  useEffect(() => {
+    setIsFetching(false);
+  }, [setIsFetching]);
 
   // Подписываюсь на контекст CurrentUserContext
   const { currentUser } = useContext(CurrentUserContext);
 
+  // Устанавливаю данные currentUser в инпуты
   useEffect(() => {
     setValues({
       name: currentUser.name,
@@ -48,6 +58,7 @@ export default function Profile({ handleLogOut, handleEditProfile }) {
                       ? 'profile__input profile__input_error'
                       : 'profile__input'
                   }
+                  readOnly={isFetching && true}
                   id='profile__input-name'
                   type='text'
                   required
@@ -76,9 +87,11 @@ export default function Profile({ handleLogOut, handleEditProfile }) {
                       ? 'profile__input profile__input_error'
                       : 'profile__input'
                   }
+                  readOnly={isFetching && true}
                   id='profile__input-email'
                   type='email'
                   placeholder={currentUser.email}
+                  pattern='^.+@.+\..+$'
                   name='email'
                   onChange={handleChange}
                   value={values.email ? values.email : ''}
@@ -92,11 +105,11 @@ export default function Profile({ handleLogOut, handleEditProfile }) {
           </fieldset>
           <div className='profile__btns'>
             <button
-              disabled={isButtonAble ? false : true}
+              disabled={!isButtonAble || isFetching ? true : false}
               className={
-                isButtonAble
-                  ? 'profile__btn-edit button'
-                  : 'profile__btn-edit profile__btn-edit_disabled'
+                !isButtonAble || isFetching
+                  ? 'profile__btn-edit profile__btn-edit_disabled'
+                  : 'profile__btn-edit button'
               }
               onClick={handleSubmit}
             >
