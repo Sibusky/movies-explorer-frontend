@@ -10,8 +10,6 @@ export default function Login({ handleLogin, isLoggedIn, isFetching }) {
 
   let location = useLocation();
 
-  console.log(isFetching);
-
   // Обработчик формы
   function handleSubmit(e) {
     e.preventDefault();
