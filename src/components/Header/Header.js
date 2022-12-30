@@ -1,42 +1,56 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import MenuModal from './MenuModal/MenuModal';
 import './Header.css';
 import HeaderNavigation from './HeaderNavigation/HeaderNavigation';
 
-export default function Header() {
-  const [size, setSize] = useState();
-  const [isActvite, setIsActive] = useState(false);
-  const refWidth = useRef();
+export default function Header({
+  isMenuActvite,
+  onOpenMenu,
+  onClose,
+  windowSize,
+  isLoggedIn,
+}) {
+  let { pathname } = useLocation();
 
-  const resizeHandler = () => {
-    const { clientWidth } = refWidth.current || {};
-    setSize(clientWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', resizeHandler);
-    resizeHandler();
-    return () => {
-      window.removeEventListener('resize', resizeHandler);
-    };
-  }, []);
-
-  return (
-    <header className='header' ref={refWidth}>
-      <div className='header__container'>
-        <Logo />
-        {size > 780 && <HeaderNavigation />}
-      </div>
-      {size <= 780 && (
+  // Разметка header под залогиненное состояние
+  const headerIsLoggedInTrue = (
+    <div className='header__navigation'>
+      {windowSize > 780 && <HeaderNavigation />}
+      {windowSize <= 780 && (
         <div
           className='header__menu-btn button'
-          onClick={() => {
-            setIsActive(true);
-          }}
+          onClick={onOpenMenu}
         ></div>
       )}
-      <MenuModal isActvite={isActvite} setIsActive={setIsActive} />
+    </div>
+  );
+
+  // Разметка header под разлогиненное состояние
+  const headerIsLoggedInFalse = (
+    <div className='header__auth-buttons'>
+      <Link to='/signup' className='header__auth-signup link'>
+        Регистрация
+      </Link>
+      <Link to='/signin' className='header__auth-signin link'>
+        Войти
+      </Link>
+    </div>
+  );
+
+  return (
+    <header
+      className={pathname !== '/' ? 'header' : 'header header_landing'}
+    >
+      <div className='header__container'>
+        <Logo />
+        {isLoggedIn ? headerIsLoggedInTrue : headerIsLoggedInFalse}
+      </div>
+      <MenuModal
+        isMenuActvite={isMenuActvite}
+        onClose={onClose}
+      />
     </header>
   );
 }

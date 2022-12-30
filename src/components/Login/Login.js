@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Logo from '../Logo/Logo';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
+export default function Login({ handleLogin, isLoggedIn, isFetching }) {
+  const [values, errors, isValid, handleChange] =
+    useFormWithValidation();
 
-export default function Login({user}) {
-  const [values, setValues] = useState({
-    email: '',
-    password: '',
-  });
+  let location = useLocation();
 
-    // Обработчик формы
-    function handleSubmit(e) {
-      e.preventDefault();
-      // const { email, password } = values;
-      // handleRegister({ email, password });
-    }
+  // Обработчик формы
+  function handleSubmit(e) {
+    e.preventDefault();
+    const { email, password } = values;
+    handleLogin({ email, password });
+  }
+
+  if (isLoggedIn) {
+    return <Navigate to='/movies' state={{ from: location }} replace />;
+  }
 
   return (
     <main className='login'>
@@ -28,41 +32,71 @@ export default function Login({user}) {
           <fieldset className='login__form-fieldset'>
             <ul className='login__input-list'>
               <li className='login__input-item'>
-                <label className='login__input-label' htmlFor='login__input-email'>
+                <label
+                  className='login__input-label'
+                  htmlFor='login__input-email'
+                >
                   E-mail
                 </label>
                 <input
-                  className='login__input'
+                  className={
+                    errors.email
+                      ? 'login__input login__input-error'
+                      : 'login__input'
+                  }
+                  readOnly={isFetching && true}
                   id='login__input-email'
-                  type='text'
+                  type='email'
                   placeholder=''
-                  name='user-email'
-                  onChange={e => setValues({...values, email: e.target.value})}
-                  value={values.email}
+                  pattern='^.+@.+\..+$'
+                  name='email'
+                  onChange={handleChange}
+                  value={values.email ? values.email : ''}
                   required
                 />
-                <span id='error-login-email' className='login__error'></span>
+                <span id='error-login-email' className='login__error'>
+                  {errors.email}
+                </span>
               </li>
               <li className='login__input-item'>
-                <label className='login__input-label' htmlFor='login__input-password'>
+                <label
+                  className='login__input-label'
+                  htmlFor='login__input-password'
+                >
                   Пароль
                 </label>
                 <input
-                  className='login__input'
+                  className={
+                    errors.password
+                      ? 'login__input login__input-error'
+                      : 'login__input'
+                  }
+                  readOnly={isFetching && true}
                   id='login__input-password'
                   type='password'
                   placeholder=''
-                  name='user-password'
-                  onChange={e => setValues({...values, password: e.target.value})}
-                  value={values.password}
+                  name='password'
+                  minLength='8'
+                  onChange={handleChange}
+                  value={values.password ? values.password : ''}
                   required
                 />
-                <span id='error-login-password' className='login__error'></span>
+                <span id='error-login-password' className='login__error'>
+                  {errors.password}
+                </span>
               </li>
             </ul>
           </fieldset>
-          <button className='login__submit-btn button' type='submit'>
-            Войти
+          <button
+            disabled={!isValid || isFetching ? true : false}
+            className={
+              !isValid || isFetching
+                ? 'login__submit-btn login__submit-btn_disabled'
+                : 'login__submit-btn button'
+            }
+            type='submit'
+          >
+            {isFetching ? 'Загрузка...' : 'Войти'}
           </button>
         </form>
         <p className='login__signin'>

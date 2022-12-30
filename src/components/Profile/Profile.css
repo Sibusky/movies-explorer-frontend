@@ -4,7 +4,13 @@
   align-items: center;
   width: 100%;
   height: 626px;
-  background-color: #fff;
+}
+
+.profile__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 410px;
 }
 
 .profile__greetings {
@@ -22,31 +28,44 @@
   color: #000;
 }
 
-.profile__contacts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  list-style: none;
-  width: 410px;
-  margin: 111px 0 0 0;
+.profile__form {
+  width: 100%;
+  margin: 108px 0 0 0;
   padding: 0;
 }
 
-.profile__contacts-item {
+.profile__form-fieldset {
+  width: 100%;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile__input-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile__input-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  margin: 0;
-  padding: 17px 0 17px;
+  position: relative;
   border-bottom: 1px solid #e8e8e8;
+  margin: 0;
+  padding: 16px 0;
 }
 
-.profile__contacts-item:last-of-type {
+.profile__input-item:last-of-type {
   border-bottom: none;
 }
 
-.profile__contacts-item-name {
+.profile__input-label {
   font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -60,7 +79,7 @@
   color: #000;
 }
 
-.profile__contacts-user-name {
+.profile__input {
   font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -68,10 +87,40 @@
   line-height: 11px;
   text-rendering: optimizeLegibility;
   text-decoration: none;
+  text-align: right;
   letter-spacing: 0;
   margin: 0;
   padding: 0;
   color: #000;
+  background-color: #fafafa;
+  width: 80%;
+  border: none;
+}
+
+.profile__input_error {
+  color: #ee3465;
+}
+
+.profile__input:focus {
+  outline: none;
+}
+
+.profile__error {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 10px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  text-align: right;
+  letter-spacing: 0;
+  margin: 0;
+  padding: 0;
+  color: #ee3465;
 }
 
 .profile__btns {
@@ -97,6 +146,10 @@
   color: #000;
 }
 
+.profile__btn-edit_disabled {
+  color: #bababa;
+}
+
 .profile__btn-logout {
   background-color: transparent;
   border: none;
@@ -119,15 +172,11 @@
   }
 
   .profile__greetings {
-    margin: 239px 0 0 0;
+    margin: 240px 0 0 0;
   }
 
-  .profile__contacts {
-    margin: 80px 0 0 0;
-  }
-
-  .profile__contacts-item {
-    padding: 19px 0 19px;
+  .profile__form {
+    margin: 83px 0 0 0;
   }
 
   .profile__btns {
@@ -136,7 +185,7 @@
 }
 
 @media screen and (max-width: 500px) {
-  .profile__contacts {
+  .profile__container {
     width: calc((260 / 320) * 100%);
   }
 }
@@ -150,8 +199,8 @@
     margin: 73px 0 0 0;
   }
 
-  .profile__contacts {
-    margin: 64px 0 0 0;
+  .profile__form {
+    margin: 67px 0 0 0;
   }
 
   .profile__btns {
@@ -161,7 +210,7 @@
   .profile__btn-edit {
     letter-spacing: -0.5px;
   }
-  
+
   .profile__btn-logout {
     letter-spacing: -0.5px;
   }

@@ -2,15 +2,16 @@ import React from 'react';
 import './MenuModal.css';
 import { NavLink } from 'react-router-dom';
 
-export default function MenuModal({ isActvite, setIsActive }) {
+export default function MenuModal({ isMenuActvite, onClose }) {
+
   return (
     <div
-      className={isActvite ? 'menu menu_opened' : 'menu'}
-      onClick={() => setIsActive(false)}
+      className={isMenuActvite ? 'menu menu_opened' : 'menu'}
+      onClick={onClose}
     >
       <div
         className={
-          isActvite ? 'menu__content menu__content_opened' : 'menu__content'
+          isMenuActvite ? 'menu__content menu__content_opened' : 'menu__content'
         }
         onClick={(e) => e.stopPropagation()}
       >
@@ -24,6 +25,7 @@ export default function MenuModal({ isActvite, setIsActive }) {
                     ? 'menu__navigator-link menu__navigator-link_active link'
                     : 'menu__navigator-link link'
                 }
+                onClick={onClose}
               >
                 Главная
               </NavLink>
@@ -36,9 +38,7 @@ export default function MenuModal({ isActvite, setIsActive }) {
                     ? 'menu__navigator-link menu__navigator-link_active link'
                     : 'menu__navigator-link link'
                 }
-                onClick={() => {
-                  setIsActive(false);
-                }}
+                onClick={onClose}
               >
                 Фильмы
               </NavLink>
@@ -51,26 +51,23 @@ export default function MenuModal({ isActvite, setIsActive }) {
                     ? 'menu__navigator-link menu__navigator-link_active link'
                     : 'menu__navigator-link link'
                 }
-                onClick={() => {
-                  setIsActive(false);
-                }}
+                onClick={onClose}
               >
                 Сохранённые фильмы
               </NavLink>
             </li>
             <li className='menu__navigator-list-item'>
-              <NavLink to='/profile' className='menu__account-btn-link'>
+              <NavLink
+                to='/profile'
+                className='menu__account-btn-link'
+                onClick={onClose}
+              >
                 <div className='menu__account-btn button'></div>
               </NavLink>
             </li>
           </ul>
         </nav>
-        <button
-          className='menu__close-btn button'
-          onClick={() => {
-            setIsActive(false);
-          }}
-        ></button>
+        <button className='menu__close-btn button' onClick={onClose}></button>
       </div>
     </div>
   );

@@ -2,18 +2,24 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
-import './Layout.css'
+import './Layout.css';
 
-import { useLocation } from 'react-router-dom';
-
-export default function Layout() {
-  let location = useLocation();
-
-  console.log(location.pathname);
-
+export default function Layout({
+  isMenuActvite,
+  onOpenMenu,
+  onClose,
+  windowSize,
+  isLoggedIn,
+}) {
   return (
     <div className='layout'>
-      {location.pathname !== '/' && <Header />}
+      <Header
+        isMenuActvite={isMenuActvite}
+        onOpenMenu={onOpenMenu}
+        onClose={onClose}
+        windowSize={windowSize}
+        isLoggedIn={isLoggedIn}
+      />
       <Outlet />
       <Footer />
     </div>

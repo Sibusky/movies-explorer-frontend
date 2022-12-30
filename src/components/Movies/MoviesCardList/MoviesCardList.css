@@ -17,6 +17,21 @@
   margin: 0;
 }
 
+.movies-cards__found-nothing-text {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 18px;
+  text-rendering: optimizeLegibility;
+  text-decoration: none;
+  letter-spacing: 0;
+  color: black;
+  text-align: center;
+  padding: 0;
+  margin: 0 50px 0;
+}
+
 @media screen and (max-width: 838px) {
   .movies-cards {
     width: calc((708 / 768) * 100%);
@@ -36,6 +51,11 @@
 
   .movies-cards__list {
     padding: 0 0 20px 0;
+  }
+
+  .movies-cards__found-nothing-text {
+    font-size: 14px;
+    line-height: 14px;
   }
 
   .movies-cards__more-btn {

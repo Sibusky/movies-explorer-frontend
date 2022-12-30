@@ -12,12 +12,22 @@ export default function Footer() {
         <nav className='footer__nav'>
           <ul className='footer__nav-list'>
             <li className='footer__nav-list-item'>
-              <a className='footer__nav-list-link link' href='https://practicum.yandex.ru/' target='_blank'>
+              <a
+                className='footer__nav-list-link link'
+                href='https://practicum.yandex.ru/'
+                target='_blank'
+                rel='noreferrer'
+              >
                 Яндекс.Практикум
               </a>
             </li>
             <li className='footer__nav-list-item'>
-              <a className='footer__nav-list-link link' href='https://github.com/Sibusky' target='_blank'>
+              <a
+                className='footer__nav-list-link link'
+                href='https://github.com/Sibusky'
+                target='_blank'
+                rel='noreferrer'
+              >
                 Github
               </a>
             </li>
