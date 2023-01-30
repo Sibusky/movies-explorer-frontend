@@ -47,7 +47,7 @@ export default function Portfolio() {
             <li className='portfolio__navigation-list-item'>
               <a
                 className='portfolio__georgian-link portfolio__links-item link'
-                href='https://sibusky.github.io/georgian-alphabet/index.html'
+                href='https://sibusky.github.io/georgian-alphabet/'
                 target='_blank' rel="noreferrer"
               >
                 <p className='portfolio__navigation-list-item-text'>
